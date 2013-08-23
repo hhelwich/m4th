@@ -11,7 +11,9 @@ minus = (a, b) -> a - b
 
 floor = Math.floor
 
-newEmpty = (width, height) -> new Matrix new Array(width * height), width
+newEmpty = (width, height) ->
+  new Matrix new Array(width * height), width
+
 
 class Matrix
   constructor: (@array, @width = Math.sqrt array.length) ->
@@ -19,6 +21,13 @@ class Matrix
     if @height != floor(@height) or @width != floor(@width)
       fail 'invalid array size'
 
+
+  get: (row, col) ->
+    @array[row * @width + col]
+
+  set: (row, col, val) ->
+    @array[row * @width + col] = val
+    @
 
   isSameSize: (B) ->
     @height == B.height and @width == B.width
@@ -58,6 +67,15 @@ class Matrix
     for i in [0...@width] by 1
       for j in [0...@height] by 1
         T.array[j + i * @height] = @array[i + j * @width]
+    T
+  mult: (B, T = newEmpty(B.width, @height)) ->
+    if @width != B.height or T.height != @height or T.width != B.width
+      failUnmatchingDimensions()
+    T.fill(0, T) # initialize with zeros
+    for i in [0...@height] by 1 # iterate rows of T
+      for j in [0...B.width] by 1 # iterate colums of T
+        for k in [0...@width] by 1 # iterate columns of A / rows of B
+          T.array[i * T.width + j] += @get(i, k) * B.get(k, j)
     T
 
   toString: ->
