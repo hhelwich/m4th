@@ -5,15 +5,21 @@ describe 'Matrix module', ->
   A = null
   A2 = null
   A3 = null
+  A2_A = null
 
   beforeEach ->
 
-    A  = M [ 1,  3,  5
-             2,  4,  6 ], 3
-    A2 = M [ 1,  9, 25
-             4, 16, 36 ], 3
-    A3 = M [ 3,  9, 15
-             6, 12, 18 ], 3
+    A  =   M [ 1,  3,  5
+               2,  4,  6 ], 3
+    # a_{ij}^2
+    A2 =   M [ 1,  9, 25
+               4, 16, 36 ], 3
+    # a_{ij}*3
+    A3 =   M [ 3,  9, 15
+               6, 12, 18 ], 3
+    # A2 - A
+    A2_A = M [ 0,  6, 20
+               2, 12, 30 ], 3
 
   describe 'Matrix constructor', ->
 
@@ -130,17 +136,80 @@ describe 'Matrix module', ->
       expect(C).toBe B # B returned ?
       expect(C).toEqual A3 # B adapted correctly ?
 
+
+  describe 'fill() function', ->
+
+    it 'fills to a new matrix', ->
+      B = A.clone()
+      C = B.fill(7)
+      expect(C).not.toBe B # not in place ?
+      expect(C).toEqual M [ 7, 7, 7
+                            7, 7, 7 ], 3 # adapted correctly ?
+
+
   describe 'zip() function', ->
 
-    it 'should zip two matrices to a new one', ->
+    it 'maps two matrices to a new one', ->
       B = A.clone()
       B2 = A2.clone()
-      C = B.zip(((a, b) -> b-a), B2)
-      expect(C).toEqual M [0,  6, 20
-                           2, 12, 30 ], 3
+      C = B.zip(((a, b) -> b - a), B2)
+      expect(C).toEqual A2_A
       expect(C).not.toBe B
       expect(B).toEqual A
       expect(B2).toEqual A2
+
+    it 'maps two matrices to the first in place', ->
+      B = A.clone()
+      B2 = A2.clone()
+      C = B.zip(((a, b) -> b - a), B2, B)
+      expect(C).toEqual A2_A
+      expect(C).toBe B
+      expect(B2).toEqual A2
+
+  describe 'add() function', ->
+
+    it 'adds two matrices to a new one', ->
+      B = A2_A.clone()
+      B2 = A.clone()
+      C = B.add(B2) # tested function
+      expect(C).toEqual A2 # expected result?
+      expect(C).not.toBe B # not in place?
+      expect(C).not.toBe B2
+      expect(B).toEqual A2_A # source unchanged ?
+      expect(B2).toEqual A
+
+    it 'adds two matrices to the second one', ->
+      B = A2_A.clone()
+      B2 = A.clone()
+      C = B.add(B2, B2) # tested function
+      expect(C).toEqual A2 # expected result?
+      expect(C).toBe B2 # in place ?
+      expect(C).not.toBe B # not in place?
+      expect(B).toEqual A2_A # source unchanged ?
+
+  describe 'minus() function', ->
+
+    it 'subtrats two matrices to a new one', ->
+      B = A2.clone()
+      B2 = A.clone()
+      C = B.minus(B2) # tested function
+      expect(C).toEqual A2_A # expected result?
+      expect(C).not.toBe B # not in place?
+      expect(C).not.toBe B2
+      expect(B).toEqual A2 # source unchanged ?
+      expect(B2).toEqual A
+
+
+  describe 'transp() function', ->
+
+    it 'transposes a matrix to a new one', ->
+      B = A.clone()
+      C = B.transp() # tested function
+      expect(C).toEqual M [ 1, 2
+                            3, 4
+                            5, 6 ], 2 # expected result?
+      expect(C).not.toBe B # not in place?
+      expect(B).toEqual A # source unchanged ?
 
   describe 'toString() function', ->
 
