@@ -1,10 +1,17 @@
 log = require '../util/log'
 
 fail = log.fail
+failUnmatchingDimensions = -> fail('unmatching dimensions')
 
 id = (x) -> x
 
+add = (a, b) -> a + b
+
+minus = (a, b) -> a - b
+
 floor = Math.floor
+
+newEmpty = (width, height) -> new Matrix new Array(width * height), width
 
 class Matrix
   constructor: (@array, @width = Math.sqrt array.length) ->
@@ -28,11 +35,29 @@ class Matrix
   times: (s, T) ->
     @map ((x) -> s*x), T
 
-  zip: (f, B, T = new Matrix new Array(@array.length), @width) ->
+  fill: (s, T) ->
+    @map (-> s), T
+
+  zip: (f, B, T = newEmpty(@width, @height)) ->
     if not @isSameSize(B) or not @isSameSize(T)
-      fail('unmatching dimensions')
+      failUnmatchingDimensions()
     for el, n in @array
       T.array[n] = f(el, B.array[n]);
+    T
+
+  add: (B, T) ->
+    @zip add, B, T
+
+  minus: (B, T) ->
+    @zip minus, B, T
+
+  #TODO: transpose in place
+  transp: (T = newEmpty(@height, @width)) ->
+    if @height != T.width or @width != T.height
+      failUnmatchingDimensions()
+    for i in [0...@width] by 1
+      for j in [0...@height] by 1
+        T.array[j + i * @height] = @array[i + j * @width]
     T
 
   toString: ->
