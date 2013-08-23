@@ -53,6 +53,23 @@ describe 'Matrix module', ->
 
       expect(-> M [ 1, 2, 3 ]).toThrow()
 
+  describe 'get() function', ->
+
+    it 'gets matrix elements', ->
+
+      expect(A.get(0, 0)).toBe 1
+      expect(A.get(0, 1)).toBe 3
+      expect(A.get(1, 0)).toBe 2
+      expect(A.get(1, 2)).toBe 6
+
+  describe 'set() function', ->
+
+    it 'sets matrix elements', ->
+
+      expect(A.get(0, 0)).toBe 1
+      expect(A.set(0, 0, 3).get(0, 0)).toBe 3
+      expect(A.get(1, 2)).toBe 6
+      expect(A.set(1, 2, 7).get(1, 2)).toBe 7
 
   describe 'isSameSize() function', ->
 
@@ -178,7 +195,7 @@ describe 'Matrix module', ->
       expect(B).toEqual A2_A # source unchanged ?
       expect(B2).toEqual A
 
-    it 'adds two matrices to the second one', ->
+    it 'adds two matrices to the second matrix', ->
       B = A2_A.clone()
       B2 = A.clone()
       C = B.add(B2, B2) # tested function
@@ -189,7 +206,7 @@ describe 'Matrix module', ->
 
   describe 'minus() function', ->
 
-    it 'subtrats two matrices to a new one', ->
+    it 'subtrats two matrices to a new matrix', ->
       B = A2.clone()
       B2 = A.clone()
       C = B.minus(B2) # tested function
@@ -202,7 +219,7 @@ describe 'Matrix module', ->
 
   describe 'transp() function', ->
 
-    it 'transposes a matrix to a new one', ->
+    it 'transposes a matrix to a new matrix', ->
       B = A.clone()
       C = B.transp() # tested function
       expect(C).toEqual M [ 1, 2
@@ -210,6 +227,22 @@ describe 'Matrix module', ->
                             5, 6 ], 2 # expected result?
       expect(C).not.toBe B # not in place?
       expect(B).toEqual A # source unchanged ?
+
+  describe 'mult() function', ->
+
+    it 'multiplies two matrices to a new matrix', ->
+      A = M [ -4,  1,  6
+              -2,  5, -3 ], 3
+      B = M [ -4, -1,  1, 6
+               0,  4, -3, 2
+               3, -2,  5, 7 ], 4
+      A2 = A.clone();
+      B2 = B.clone();
+      C = A2.mult(B2) # tested function
+      expect(C).toEqual M [ 34, -4,  23,  20
+                            -1, 28, -32, -23 ], 4 # expected result?
+      expect(A2).toEqual A # source unchanged ?
+      expect(B2).toEqual B # source unchanged ?
 
   describe 'toString() function', ->
 
