@@ -39,6 +39,14 @@ describe 'Matrix module', ->
       expect(B.height).toBe 2
       expect(B.width).toBe 3
 
+    it 'should throw on wrong width', ->
+
+      expect(-> M [ 1, 2, 3 ], 2).toThrow()
+
+    it 'should throw on on param call with not square array size', ->
+
+      expect(-> M [ 1, 2, 3 ]).toThrow()
+
   describe 'clone() function', ->
 
     it 'should be able to clone a matrix', ->
