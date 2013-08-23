@@ -13,18 +13,27 @@ class Matrix
       fail 'invalid array size'
 
 
+  isSameSize: (B) ->
+    @height == B.height and @width == B.width
+
+  isSquare: ->
+    @height == @width
+
   map: (f, T) ->
-    if not T?
-      T = new Matrix new Array(@array.length), @width
-    for el, n in @array
-      T.array[n] = f(el);
-    T
+    @zip ((a, b) -> f(a)), @, T
 
   clone: (T) ->
     @map id, T
 
   times: (s, T) ->
     @map ((x) -> s*x), T
+
+  zip: (f, B, T = new Matrix new Array(@array.length), @width) ->
+    if not @isSameSize(B) or not @isSameSize(T)
+      fail('unmatching dimensions')
+    for el, n in @array
+      T.array[n] = f(el, B.array[n]);
+    T
 
   toString: ->
     str = ''
