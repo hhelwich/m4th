@@ -47,6 +47,34 @@ describe 'Matrix module', ->
 
       expect(-> M [ 1, 2, 3 ]).toThrow()
 
+
+  describe 'isSameSize() function', ->
+
+    it 'should return true on same sized matrices', ->
+
+      expect(A.isSameSize(A)).toBe true
+      expect(A.isSameSize(A2)).toBe true
+
+    it 'should return false on different sized matrices', ->
+
+      expect(A.isSameSize(M [])).toBe false
+      expect(A.isSameSize(M [ 1, 2, 3 ], 3)).toBe false
+
+
+  describe 'isSquare() function', ->
+
+    it 'should return true on square matrices', ->
+
+      expect((M []).isSquare()).toBe true
+      expect((M [1]).isSquare()).toBe true
+      expect((M [1, 2
+                 3, 4]).isSquare()).toBe true
+
+    it 'should return false on not square matrices', ->
+
+      expect(A.isSquare()).toBe false
+
+
   describe 'clone() function', ->
 
     it 'should be able to clone a matrix', ->
@@ -102,6 +130,17 @@ describe 'Matrix module', ->
       expect(C).toBe B # B returned ?
       expect(C).toEqual A3 # B adapted correctly ?
 
+  describe 'zip() function', ->
+
+    it 'should zip two matrices to a new one', ->
+      B = A.clone()
+      B2 = A2.clone()
+      C = B.zip(((a, b) -> b-a), B2)
+      expect(C).toEqual M [0,  6, 20
+                           2, 12, 30 ], 3
+      expect(C).not.toBe B
+      expect(B).toEqual A
+      expect(B2).toEqual A2
 
   describe 'toString() function', ->
 
