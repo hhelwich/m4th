@@ -49,6 +49,17 @@ class Matrix
 
   clone: (T) -> @map id, T
 
+  toString: ->
+    str = ''
+    for el, n in @array
+      if n % @width == 0
+        if n > 0
+          str += '\n'
+      else
+        str += ' '
+      str += el
+    str
+
 # public api
 module.exports = (array, width) ->
   new Matrix array, width
