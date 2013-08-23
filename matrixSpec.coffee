@@ -115,3 +115,9 @@ describe 'Matrix module', ->
 
     it 'should give correct width for a rectangular matrix', ->
       expect(M.width([[1, 2], [3, 4], [5, 6]])).toEqual 3
+
+
+  describe 'toString() function', ->
+
+    it 'should return the matrix as string', ->
+      expect(A.toString()).toBe '1 3 5\n2 4 6'
