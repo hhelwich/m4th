@@ -4,6 +4,7 @@ describe 'Matrix module', ->
 
   A = null
   A2 = null
+  A3 = null
 
   beforeEach ->
 
@@ -11,6 +12,8 @@ describe 'Matrix module', ->
              2,  4,  6 ], 3
     A2 = M [ 1,  9, 25
              4, 16, 36 ], 3
+    A3 = M [ 3,  9, 15
+             6, 12, 18 ], 3
 
   describe 'Matrix constructor', ->
 
@@ -78,43 +81,18 @@ describe 'Matrix module', ->
 
   describe 'times() function', ->
 
+    it 'should multiply a matrix (and create a new instance)', ->
+      B = A.clone()
+      C = B.times(3)
+      expect(C).not.toBe B # not in place ?
+      expect(B).toEqual A # source not changed ?
+      expect(C).toEqual A3 # adapted correctly ?
+
     it 'should be able to multiply a matrix in place', ->
-      A = [[1, 2]]
-      B = M.times(3, A)
-      expect(B).toBe A # in place ?
-      expect(B).toEqual [[3, 6]] # adapted correctly ?
-
-    it 'should be able to multiply to another matrix', ->
-      A = [[1, 2]]
-      B = [[]]
-      C = M.times(3, A, B)
+      B = A.clone()
+      C = B.times(3, B)
       expect(C).toBe B # B returned ?
-      expect(A).toEqual [[1, 2]] # A not changed ?
-      expect(B).toEqual [[3, 6]] # B adapted correctly ?
-
-
-  describe 'height() function', ->
-
-    it 'should give correct height for an empty matrix', ->
-      expect(M.height([])).toEqual 0
-
-    it 'should fail for empty 2 dim matrix', ->
-      expect(-> M.height([[]])).toThrow()
-
-    it 'should give correct height for a rectangular matrix', ->
-      expect(M.height([[1, 2], [3, 4], [5, 6]])).toEqual 2
-
-
-  describe 'width() function', ->
-
-    it 'should give correct width for an empty matrix', ->
-      expect(M.width([])).toEqual 0
-
-    it 'should fail for empty 2 dim matrix', ->
-      expect(-> M.width([[]])).toThrow()
-
-    it 'should give correct width for a rectangular matrix', ->
-      expect(M.width([[1, 2], [3, 4], [5, 6]])).toEqual 3
+      expect(C).toEqual A3 # B adapted correctly ?
 
 
   describe 'toString() function', ->
