@@ -31,9 +31,30 @@ width = (A) -> # assume A is rectangular
   else
     A.length
 
+id = (x) -> x
+
+class Matrix
+  constructor: (@array, @width = Math.sqrt array.length) ->
+    @height = if array.length == 0 then 0 else array.length / @width
+    if @height != Math.floor(@height) or @width != Math.floor(@width)
+      fail 'invalid array size'
+
+
+  map: (f, T) ->
+    if not T?
+      T = new Matrix new Array(@array.length), @width
+    for el, n in @array
+      T.array[n] = f(el);
+    T
+
+  clone: (T) -> @map id, T
+
 # public api
-module.exports =
-  map: map
-  times: times
-  width: width
-  height: height
+module.exports = (array, width) ->
+  new Matrix array, width
+
+
+
+module.exports.times = times
+module.exports.width = width
+module.exports.height = height
