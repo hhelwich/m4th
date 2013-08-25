@@ -68,6 +68,7 @@ class Matrix
       for j in [0...@height] by 1
         T.array[j + i * @height] = @array[i + j * @width]
     T
+
   mult: (B, T = newEmpty(B.width, @height)) ->
     if @width != B.height or T.height != @height or T.width != B.width
       failUnmatchingDimensions()
