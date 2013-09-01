@@ -93,3 +93,10 @@ class Matrix
 # public api
 module.exports = (array, width) ->
   new Matrix array, width
+
+module.exports.I = (width, height = width) ->
+  T = newEmpty width, height
+  T.fill 0, T
+  for i in [0...Math.min(width, height)] by 1
+    T.set i, i, 1
+  T
