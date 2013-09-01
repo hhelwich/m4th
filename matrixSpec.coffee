@@ -266,3 +266,19 @@ describe 'Matrix module', ->
                                  0, 0, 1 ]
       expect(M.I(3, 2)).toEqual M [ 1, 0, 0
                                     0, 1, 0 ], 3
+
+
+  describe 'diag()', ->
+
+    it 'creates a new diagonal matrix', ->
+      expect(M.diag(M [2, 3, 4], 1)).toEqual M [ 2, 0, 0
+                                                 0, 3, 0
+                                                 0, 0, 4 ]
+
+    it 'can use existing buffer', ->
+      T = (M.I 3).fill 5
+      D = M.diag((M [2, 3, 4], 1), T)
+      expect(D).toEqual M [ 2, 0, 0
+                            0, 3, 0
+                            0, 0, 4 ]
+      expect(D).toBe T
