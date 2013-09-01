@@ -3,7 +3,7 @@ _ = require 'math/luDecomposition'
 
 describe 'LU decomposition module', ->
 
-  A = L = U = LU = null
+  A = B = L = U = LU = null
 
   beforeEach ->
 
@@ -21,7 +21,37 @@ describe 'LU decomposition module', ->
 
     LU = L.minus(M.I 3).add U
 
+    B = M [ 10, 4
+             3, 8
+            -2, 1 ], 2
+
+    @addMatchers
+      toApprox: (require './matcher').toApprox
+
   describe 'LU decomposition', ->
 
     it 'decomposes a matrix', ->
-      expect(_ A).toEqual LU
+      _A = A.clone()
+      lu = _ _A
+      expect(_A).toEqual A # input untouched?
+      expect(lu.lu).toEqual LU # correct decomposition?
+
+    it 'can decompose in place', ->
+      _A = A.clone()
+      lu = _ _A, _A
+      expect(lu.lu).toEqual LU # correct decomposition?
+      expect(lu.lu).toBe _A # in place ?
+
+  describe 'solve()', ->
+
+    it 'solves an equation', ->
+      _B = B.clone()
+      C = (_ A).solve _B
+      expect(_B).toEqual B # input untouched?
+      expect(A.mult(C)).toApprox B, 0.0000000000001 # correct solution?
+
+    it 'can solve in place', ->
+      _B = B.clone()
+      C = (_ A).solve _B, _B
+      expect(C).toBe _B # in place ?
+      expect(A.mult(C)).toApprox B, 0.0000000000001 # correct solution?
