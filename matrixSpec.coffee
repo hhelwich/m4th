@@ -53,6 +53,7 @@ describe 'Matrix module', ->
 
       expect(-> M [ 1, 2, 3 ]).toThrow()
 
+
   describe 'get() function', ->
 
     it 'gets matrix elements', ->
@@ -62,6 +63,7 @@ describe 'Matrix module', ->
       expect(A.get(1, 0)).toBe 2
       expect(A.get(1, 2)).toBe 6
 
+
   describe 'set() function', ->
 
     it 'sets matrix elements', ->
@@ -70,6 +72,7 @@ describe 'Matrix module', ->
       expect(A.set(0, 0, 3).get(0, 0)).toBe 3
       expect(A.get(1, 2)).toBe 6
       expect(A.set(1, 2, 7).get(1, 2)).toBe 7
+
 
   describe 'isSameSize() function', ->
 
@@ -112,6 +115,7 @@ describe 'Matrix module', ->
       expect(B).not.toBe A
       expect(B).toBe A2
       expect(B).toEqual A
+
 
   describe 'map() function', ->
 
@@ -183,6 +187,7 @@ describe 'Matrix module', ->
       expect(C).toBe B
       expect(B2).toEqual A2
 
+
   describe 'add() function', ->
 
     it 'adds two matrices to a new one', ->
@@ -203,6 +208,7 @@ describe 'Matrix module', ->
       expect(C).toBe B2 # in place ?
       expect(C).not.toBe B # not in place?
       expect(B).toEqual A2_A # source unchanged ?
+
 
   describe 'minus() function', ->
 
@@ -228,6 +234,7 @@ describe 'Matrix module', ->
       expect(C).not.toBe B # not in place?
       expect(B).toEqual A # source unchanged ?
 
+
   describe 'mult() function', ->
 
     it 'multiplies two matrices to a new matrix', ->
@@ -244,7 +251,18 @@ describe 'Matrix module', ->
       expect(A2).toEqual A # source unchanged ?
       expect(B2).toEqual B # source unchanged ?
 
+
   describe 'toString() function', ->
 
     it 'should return the matrix as string', ->
       expect(A.toString()).toBe '1 3 5\n2 4 6'
+
+
+  describe 'I()', ->
+
+    it 'creates a new identity matrix', ->
+      expect(M.I(3)).toEqual M [ 1, 0, 0
+                                 0, 1, 0
+                                 0, 0, 1 ]
+      expect(M.I(3, 2)).toEqual M [ 1, 0, 0
+                                    0, 1, 0 ], 3
