@@ -1,7 +1,7 @@
 log = require '../util/log'
 
 fail = log.fail
-failUnmatchingDimensions = -> fail('unmatching dimensions')
+failUnmatchingDimensions = -> fail('invalid dimension')
 
 id = (x) -> x
 
@@ -99,4 +99,12 @@ module.exports.I = (width, height = width) ->
   T.fill 0, T
   for i in [0...Math.min(width, height)] by 1
     T.set i, i, 1
+  T
+
+module.exports.diag = (x, T = newEmpty(x.height, x.height)) ->
+  if x.width != 1 or T.height != x.height or T.width != x.height
+    failUnmatchingDimensions()
+  T.fill 0, T
+  for i in [0...x.height] by 1
+    T.set i, i, x.get(i, 0)
   T
