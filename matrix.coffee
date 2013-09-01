@@ -36,7 +36,7 @@ class Matrix
     @height == @width
 
   map: (f, T) ->
-    @zip ((a, b) -> f(a)), @, T
+    @zip ((a) -> f(a)), @, T # function wrapped to hide following arguments
 
   clone: (T) ->
     @map id, T
