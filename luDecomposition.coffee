@@ -24,6 +24,7 @@ decomposeLU = (A, T = A.clone()) ->
       T.set(j, i, T.get(j, i) / T.get(i, i)) # -=
   lu: T
   solve: solve
+  getInverse: getInverse
 
 
 ### Calculate X = A^-1 * B in place or not in place ###
@@ -46,6 +47,11 @@ solve = (B, T = B.clone()) ->
       for j in [0...T.width] by 1
         T.set i, j, T.get(i, j) - T.get(k, j) * A.get(i, k) # -=
   T
+
+getInverse = ->
+  I = M.I @lu.width
+  @solve I, I
+
 
 
 module.exports = decomposeLU
