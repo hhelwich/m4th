@@ -55,3 +55,14 @@ describe 'LU decomposition module', ->
       C = (_ A).solve _B, _B
       expect(C).toBe _B # in place ?
       expect(A.mult(C)).toApprox B, 0.0000000000001 # correct solution?
+
+
+  describe 'getInverse()', ->
+
+    it 'returns the inverse of the source matrix', ->
+      _A = A.clone()
+      B = (_ _A).getInverse()
+      expect(_A).toEqual A # input untouched?
+      # correct solution?
+      expect(A.mult(B)).toApprox (M.I 3), 0.000000000000001
+      expect(B.mult(A)).toApprox (M.I 3), 0.00000000000001
