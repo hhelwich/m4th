@@ -3,7 +3,10 @@
 # Log info messages for debugging. **TODO**: empty later
 
 info = (message) ->
-  console.log message
+  console.log "INFO: #{message}"
+
+warn = (message) ->
+  console.log "WARN: #{message}"
 
 # Throw an application specific error.
 
@@ -16,4 +19,5 @@ fail = (message) ->
 
 module.exports =
   info: info
+  warn: warn
   fail: fail
