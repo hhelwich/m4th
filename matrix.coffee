@@ -1,26 +1,39 @@
-log = require '../util/log'
+# Imports / Shortcuts
+# ---------------------------
 
+# Import logger.
+log = require "../util/log"
+
+createConstructor = (require "../util/obj").createConstructor
+
+# Create some shortcuts.
 fail = log.fail
-failUnmatchingDimensions = -> fail('invalid dimension')
-
-id = (x) -> x
-
-add = (a, b) -> a + b
-
-minus = (a, b) -> a - b
-
+failUnmatchingDimensions = -> fail "invalid dimension"
 floor = Math.floor
 
+
+# Helper functions
+# -----------------
+
+# Identity function.
+id = (x) -> x
+
+# Function which adds two numbers.
+add = (a, b) -> a + b
+
+# Function which subtracts a number from another.
+minus = (a, b) -> a - b
+
+# Function to create a new empty matrix object of the given size.
 newEmpty = (width, height) ->
-  new Matrix new Array(width * height), width
+  createMatrix (new Array width * height), width
 
 
-class Matrix
-  constructor: (@array, @width = Math.sqrt array.length) ->
-    @height = if array.length == 0 then 0 else array.length / @width
-    if @height != floor(@height) or @width != floor(@width)
-      fail 'invalid array size'
+# Matrix prototype
+# ----------------
 
+# A *Matrix* prototype
+protoMatrix =
 
   get: (row, col) ->
     @array[row * @width + col]
@@ -80,31 +93,51 @@ class Matrix
     T
 
   toString: ->
-    str = ''
+    str = ""
     for el, n in @array
       if n % @width == 0
         if n > 0
-          str += '\n'
+          str += "\n"
       else
-        str += ' '
+        str += " "
       str += el
     str
 
-# public api
-module.exports = (array, width) ->
-  new Matrix array, width
 
-module.exports.I = (width, height = width) ->
+
+# Matrix constructor
+# ------------------
+
+# Construct a new matrix object.
+#*  First Argument must be a one dimensional array of the size = width * height.
+#*  Second Argument must be the width of the matrix. The height of the matrix is derived from the array size.
+#    The param can be omitted if the matrix should be square.
+createMatrix = createConstructor protoMatrix, (@array, @width = Math.sqrt array.length) ->
+  @height = if array.length == 0 then 0 else array.length / @width
+  if @height != floor(@height) or @width != floor(@width)
+    fail "invalid array size"
+
+
+createMatrix.I = (width, height = width) ->
   T = newEmpty width, height
   T.fill 0, T
   for i in [0...Math.min(width, height)] by 1
     T.set i, i, 1
   T
 
-module.exports.diag = (x, T = newEmpty(x.height, x.height)) ->
+createMatrix.diag = (x, T = newEmpty(x.height, x.height)) ->
   if x.width != 1 or T.height != x.height or T.width != x.height
     failUnmatchingDimensions()
   T.fill 0, T
   for i in [0...x.height] by 1
     T.set i, i, x.get(i, 0)
   T
+
+
+
+# Public API
+# ----------
+
+# Export Matrix constructor.
+module.exports = createMatrix
+
