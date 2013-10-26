@@ -1,7 +1,7 @@
 # Matrix implementation.
 
 # Imports / Shortcuts
-# ---------------------------
+# -------------------
 
 # Import logger.
 log = require "../util/log"
