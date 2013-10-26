@@ -45,11 +45,27 @@ describe 'Matrix module', ->
       expect(B.height).toBe 2
       expect(B.width).toBe 3
 
+    it 'should be able to create a new empty square matrix', ->
+
+      B = M 3
+      (expect B.height).toBe 3
+      (expect B.width).toBe 3
+      u = undefined
+      (expect B.array).toEqual [u,u,u,u,u,u,u,u,u]
+
+    it 'should be able to create a new empty rectangular matrix', ->
+
+      B = M 3, 2
+      (expect B.height).toBe 2
+      (expect B.width).toBe 3
+      u = undefined
+      (expect B.array).toEqual [u,u,u,u,u,u]
+
     it 'should throw on wrong width', ->
 
       expect(-> M [ 1, 2, 3 ], 2).toThrow()
 
-    it 'should throw on on param call with not square array size', ->
+    it 'should throw on param call with not square array size', ->
 
       expect(-> M [ 1, 2, 3 ]).toThrow()
 
@@ -234,6 +250,14 @@ describe 'Matrix module', ->
       expect(C).not.toBe B # not in place?
       expect(B).toEqual A # source unchanged ?
 
+    it 'transposes a matrix in place', ->
+      C = A.transp A # tested function
+      expect(C).toEqual M [ 1, 2
+                            3, 4
+                            5, 6 ], 2 # expected result?
+      expect(C).toBe A # in place?
+      expect(C.array).toBe A.array
+
 
   describe 'mult() function', ->
 
@@ -270,7 +294,7 @@ describe 'Matrix module', ->
 
   describe 'diag()', ->
 
-    it 'creates a new diagonal matrix', ->
+    it 'creates a new diagonal matrix from a column vector', ->
       expect(M.diag(M [2, 3, 4], 1)).toEqual M [ 2, 0, 0
                                                  0, 3, 0
                                                  0, 0, 4 ]
