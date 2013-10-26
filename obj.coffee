@@ -7,10 +7,10 @@ module.exports =
     # Create function which forwards to given constructor function.
     F = (args) ->
       constructor.apply @, args
-      @ # overwrite contructor return value.
+      @ # overwrite constructor return value
     # Set functions prototype field.
     F.prototype = prototype
-    # Create function which forwards to given constructor while setting prototype to new object.
+    # Create function which creates a new object with the given prototype and initializes with the given constructor.
     f = ->
       new F arguments
     # Add static fields to function.
