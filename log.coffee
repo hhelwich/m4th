@@ -12,7 +12,7 @@ warn = (message) ->
 
 fail = (message) ->
   throw
-    name: '2cpyError'
+    name: "2cpyError"
     message: message
 
 # ### Public API
