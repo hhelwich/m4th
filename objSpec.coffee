@@ -4,7 +4,15 @@ describe 'Object utils', ->
 
   describe 'createConstructor()', ->
 
-    it 'creates a new object as expected', ->
+    it 'creates a new empty object with given prototype', ->
+      proto = a: 123
+      obj = do (_.createConstructor proto)
+      (expect obj).not.toBe proto
+      (expect obj.a).toBe 123
+      proto.a = 456
+      (expect obj.a).toBe 456
+
+    it 'creates a new object with given prototype and constructor', ->
       proto = a: 123
       construct = (@b) ->
       obj = (_.createConstructor proto, construct) 456
