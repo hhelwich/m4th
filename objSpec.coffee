@@ -32,3 +32,15 @@ describe 'Object utils', ->
       constr = _.createConstructor {}, -> foo
       obj = constr()
       (expect obj).not.toBe foo
+
+    it 'can be called with no protoype', ->
+      f = (a, b) -> a + b
+      foo = { bla: 42 }
+      constr = _.createConstructor null, f, foo
+      # constr should be a clone of f
+      (expect constr).not.toBe f
+      (expect constr).not.toBe foo
+      (expect constr 2, 3).toBe 5
+      # should been extended with foo
+      (expect constr.bla).toBe 42
+      (expect f.bla).toBeUndefined()
