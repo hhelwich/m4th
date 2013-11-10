@@ -9,9 +9,7 @@ module.exports =
     else
       # Create function which forwards to given constructor function (if given).
       F = if not constructor? then -> else
-        (args) ->
-          constructor.apply @, args
-          @ # overwrite constructor return value
+        (args) -> (constructor.apply @, args) || @ # if constructor returns truthy value: use it instead of object
       # Set functions prototype field.
       F.prototype = prototype
       # Create function which creates a new object with the given prototype and initializes with the given constructor.
