@@ -33,6 +33,7 @@ minus = (a, b) -> a - b
 # Matrix elements will have an `undefined` value.
 matrixConstructorEmpty = (@width, @height = width) ->
   @array = new Array width * @height
+  return
 
 # Construct a new matrix with the given one dimensional content array (not copied) of the size = width * height.
 # Second optional parameter must be the width of the matrix. The height of the matrix is derived from the array size.
@@ -41,6 +42,7 @@ matrixConstructorContent = (@array, @width = Math.sqrt array.length) ->
   @height = if array.length == 0 then 0 else array.length / @width
   if @height != (floor @height) or @width != (floor @width)
     fail "invalid array size"
+  return
 
 # Forward to above constructors.
 matrixConstructor = (arrayOrWidth) ->

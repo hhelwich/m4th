@@ -20,6 +20,7 @@ udDecompConstructor = (A, T = do A.clone, U = T, D = T) ->
           fail "not a regular matrix"
         U.set i, j, s / D.get j, j
   @ud = T
+  return
 
 udDecompPrototype =
 

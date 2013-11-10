@@ -26,6 +26,7 @@ luDecompConstructor = (A, T = do A.clone) ->
         T.set j, i, (T.get j, i) - (T.get j, k) * (T.get k, i) # -=
       T.set j, i, (T.get j, i) / (T.get i, i) # -=
   @lu = T
+  return
 
 
 luDecompPrototype =
