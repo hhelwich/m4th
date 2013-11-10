@@ -27,11 +27,11 @@ describe 'Object utils', ->
       for foo of stuff
         (expect constr[foo]).toBe stuff[foo]
 
-    it 'ignores constructor function return value', ->
+    it 'uses constructor return value if truthy', ->
       foo = { bla: 42 }
       constr = _.createConstructor {}, -> foo
       obj = constr()
-      (expect obj).not.toBe foo
+      (expect obj).toBe foo
 
     it 'can be called with no protoype', ->
       f = (a, b) -> a + b
