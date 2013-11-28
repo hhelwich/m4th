@@ -2,6 +2,7 @@
     "name": "math",
     "version": "0.0.0",
     "description": "Math stuff",
+    "main": "./src/main.coffee",
     "scripts": {
         "test": "./node_modules/.bin/grunt test",
         "blanket": {
