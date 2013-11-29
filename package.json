@@ -12,6 +12,8 @@
     "dependencies": {
     },
     "devDependencies": {
+        "coffee-script": "latest",
+        "grunt": "latest",
         "grunt-cli": "latest",
         "grunt-contrib-watch": "latest",
         "grunt-contrib-clean": "latest",
