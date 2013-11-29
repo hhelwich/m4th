@@ -1,5 +1,5 @@
 assert = require "assert"
-_ = require "../src/main"
+_ = require "../lib/main"
 
 describe "main", ->
 

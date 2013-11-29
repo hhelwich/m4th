@@ -6,7 +6,8 @@
     "scripts": {
         "test": "./node_modules/.bin/grunt travis",
         "blanket": {
-            "pattern": "/src/"
+            "pattern": "/lib/",
+            "data-cover-never": "/node_modules/"
         }
     },
     "dependencies": {
@@ -15,7 +16,6 @@
         "grunt-cli": "latest",
         "grunt-contrib-watch": "latest",
         "grunt-contrib-clean": "latest",
-        "grunt-contrib-copy": "latest",
         "grunt-contrib-coffee": "latest",
         "grunt-mocha-cov": "latest",
         "mocha-term-cov-reporter": "latest"
