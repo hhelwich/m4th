@@ -1,8 +1,10 @@
+
+
 M = require "./matrix"
 
-createConstructor = (require "../util/obj").createConstructor
+createConstructor = (require "./util/obj").createConstructor
 
-fail = (require "../util/log").fail
+fail = (require "./util/log").fail
 
 ###
   A very basic LU decomposition implementation without pivoting. Decomposition is done in place. Given buffer must

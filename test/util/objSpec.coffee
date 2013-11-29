@@ -1,46 +1,48 @@
-_ = require 'util/obj'
+expect = (require "chai").expect
 
-describe 'Object utils', ->
+_ = require "../../lib/util/obj"
 
-  describe 'createConstructor()', ->
+describe "Object utils", ->
 
-    it 'creates a new empty object with given prototype', ->
+  describe "createConstructor()", ->
+
+    it "creates a new empty object with given prototype", ->
       proto = a: 123
       obj = do (_.createConstructor proto)
-      (expect obj).not.toBe proto
-      (expect obj.a).toBe 123
+      (expect obj).not.to.equal proto
+      (expect obj.a).to.equal 123
       proto.a = 456
-      (expect obj.a).toBe 456
+      (expect obj.a).to.equal 456
 
-    it 'creates a new object with given prototype and constructor', ->
+    it "creates a new object with given prototype and constructor", ->
       proto = a: 123
       construct = (@b) ->
       obj = (_.createConstructor proto, construct) 456
-      (expect obj.a).toBe 123
-      (expect obj.b).toBe 456
+      (expect obj.a).to.equal 123
+      (expect obj.b).to.equal 456
 
-    it 'adds optional stuff to constructor', ->
+    it "adds optional stuff to constructor", ->
       stuff =
         a: ->
         b: 3
       constr = _.createConstructor {}, (->), stuff
       for foo of stuff
-        (expect constr[foo]).toBe stuff[foo]
+        (expect constr[foo]).to.equal stuff[foo]
 
-    it 'uses constructor return value if truthy', ->
+    it "uses constructor return value if truthy", ->
       foo = { bla: 42 }
       constr = _.createConstructor {}, -> foo
       obj = constr()
-      (expect obj).toBe foo
+      (expect obj).to.equal foo
 
-    it 'can be called with no protoype', ->
+    it "can be called with no protoype", ->
       f = (a, b) -> a + b
       foo = { bla: 42 }
       constr = _.createConstructor null, f, foo
       # constr should be a clone of f
-      (expect constr).not.toBe f
-      (expect constr).not.toBe foo
-      (expect constr 2, 3).toBe 5
+      (expect constr).not.to.equal f
+      (expect constr).not.to.equal foo
+      (expect constr 2, 3).to.equal 5
       # should been extended with foo
-      (expect constr.bla).toBe 42
-      (expect f.bla).toBeUndefined()
+      (expect constr.bla).to.equal 42
+      (expect f.bla).to.be.undefined

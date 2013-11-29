@@ -1,8 +1,13 @@
-M = require 'math/matrix'
-_ = require 'math/udDecomposition'
-matcher = require './matcher'
+chai = require "chai"
+expect = chai.expect
 
-describe 'UD decomposition module', ->
+chai.use require "./approxAssertion"
+
+
+M = require "../lib/matrix"
+_ = require "../lib/udDecomposition"
+
+describe "UD decomposition module", ->
 
   A = U = D = UD = B = null
 
@@ -28,38 +33,34 @@ describe 'UD decomposition module', ->
             5,  6
             9,  8 ], 2
 
-    @addMatchers
-      toApprox: matcher.toApprox
-      toApproxUpper: matcher.toApproxUpper
 
+  describe "UD decomposition", ->
 
-  describe 'UD decomposition', ->
-
-    it 'decomposes a spd matrix', ->
+    it "decomposes a spd matrix", ->
 
       _A = A.clone()
       ud = _ _A
-      expect(_A).toEqual A # input untouched?
-      expect(ud.ud).toApproxUpper UD # correct decomposition?
+      expect(_A).to.deep.equal A # input untouched?
+      expect(ud.ud).to.approxUpper UD # correct decomposition?
 
-    it 'can decompose in place', ->
+    it "can decompose in place", ->
 
       _A = A.clone()
       ud = _ _A, _A
-      expect(ud.ud).toApproxUpper UD # correct decomposition?
-      expect(ud.ud).toBe _A # in place ?
+      expect(ud.ud).to.approxUpper UD # correct decomposition?
+      expect(ud.ud).to.equal _A # in place ?
 
 
-  describe 'solve()', ->
+  describe "solve()", ->
 
-    it 'solves an equation', ->
+    it "solves an equation", ->
       _B = B.clone()
       C = (_ A).solve _B
-      expect(_B).toEqual B # input untouched?
-      expect(A.mult(C)).toApprox B, 0.0000000000001 # correct solution?
+      expect(_B).to.deep.equal B # input untouched?
+      expect(A.mult(C)).to.approx B, 0.0000000000001 # correct solution?
 
-    it 'can solve in place', ->
+    it "can solve in place", ->
       _B = B.clone()
       C = (_ A).solve _B, _B
-      expect(C).toBe _B # in place ?
-      expect(A.mult(C)).toApprox B, 0.0000000000001 # correct solution?
+      expect(C).to.equal _B # in place ?
+      expect(A.mult(C)).to.approx B, 0.0000000000001 # correct solution?

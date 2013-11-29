@@ -4,9 +4,9 @@
 # -------------------
 
 # Import logger.
-log = require "../util/log"
+log = require "./util/log"
 
-createConstructor = (require "../util/obj").createConstructor
+createConstructor = (require "./util/obj").createConstructor
 
 # Create some shortcuts.
 fail = log.fail
