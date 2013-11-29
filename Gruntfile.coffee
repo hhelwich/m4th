@@ -1,7 +1,7 @@
+jsDir = "lib"
 workDir = "build"
 srcDir = "src"
 testSrcDir = "test"
-resourceDir = "resources"
 
 
 module.exports = (grunt) ->
@@ -10,25 +10,15 @@ module.exports = (grunt) ->
 
     pkg: grunt.file.readJSON "package.json"
 
-    clean: [workDir]
+    clean: [jsDir, workDir]
 
     watch:
       files: [
         "Gruntfile.*"
         "#{srcDir}/**/*.coffee"
         "#{testSrcDir}/**/*.coffee"
-        "#{resourceDir}/**/*"
       ]
       tasks: ["default"]
-
-    copy:
-      resources:
-        files: [
-          expand: true
-          cwd: resourceDir
-          src: ["**/*"]
-          dest: workDir
-        ]
 
     # Transcompile CoffeeScript to JavaScript files
     coffee:
@@ -38,7 +28,7 @@ module.exports = (grunt) ->
         cwd: "#{srcDir}"
         expand: true
         src: ["**/*.coffee"]
-        dest: "#{workDir}/src"
+        dest: "#{jsDir}/"
         ext: ".js"
       test:
         options:
@@ -46,13 +36,6 @@ module.exports = (grunt) ->
         cwd: "#{testSrcDir}"
         expand: true
         src: ["**/*.coffee"]
-        dest: "#{workDir}/test"
-        ext: ".js"
-      gruntfile:
-        options:
-          bare: true
-        src: ["Gruntfile.coffee"]
-        expand: true
         dest: "#{workDir}"
         ext: ".js"
 
@@ -70,7 +53,7 @@ module.exports = (grunt) ->
             serviceName: "travis-ci"
             repoToken: "vBydWgH1Jjg4EqJaYgn3mQOg0FVsXETth"
       options:
-        files: "#{workDir}/test/**/*.js"
+        files: "#{workDir}/**/*.js"
 
   grunt.loadNpmTasks "grunt-contrib-watch"
   grunt.loadNpmTasks "grunt-contrib-clean"
@@ -79,5 +62,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-mocha-cov"
 
 
-  grunt.registerTask "test", ["clean", "coffee", "mochacov"]
+  grunt.registerTask "test", ["clean", "coffee", "mochacov:unit", "mochacov:coverage"]
+
+  grunt.registerTask "travis", ["clean", "coffee", "mochacov"]
 

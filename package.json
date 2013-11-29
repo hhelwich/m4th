@@ -2,9 +2,9 @@
     "name": "math",
     "version": "0.0.0",
     "description": "Math stuff",
-    "main": "./src/main.coffee",
+    "main": "./lib/main.js",
     "scripts": {
-        "test": "./node_modules/.bin/grunt test",
+        "test": "./node_modules/.bin/grunt travis",
         "blanket": {
             "pattern": "/src/"
         }
@@ -12,12 +12,9 @@
     "dependencies": {
     },
     "devDependencies": {
-        "coffee-script": "latest",
-        "grunt": "latest",
         "grunt-cli": "latest",
         "grunt-contrib-watch": "latest",
         "grunt-contrib-clean": "latest",
-        "grunt-contrib-copy": "latest",
         "grunt-contrib-coffee": "latest",
         "grunt-mocha-cov": "latest",
         "mocha-term-cov-reporter": "latest"
