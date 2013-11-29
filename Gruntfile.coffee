@@ -28,7 +28,7 @@ module.exports = (grunt) ->
         cwd: "#{srcDir}"
         expand: true
         src: ["**/*.coffee"]
-        dest: "#{jsDir}/"
+        dest: "#{workDir}/src"
         ext: ".js"
       test:
         options:
@@ -36,7 +36,7 @@ module.exports = (grunt) ->
         cwd: "#{testSrcDir}"
         expand: true
         src: ["**/*.coffee"]
-        dest: "#{workDir}"
+        dest: "#{workDir}/test"
         ext: ".js"
 
     mochacov:
@@ -55,13 +55,23 @@ module.exports = (grunt) ->
       options:
         files: "#{workDir}/**/*.js"
 
+    copy:
+      resources:
+        files: [
+          expand: true
+          cwd: "#{workDir}/src"
+          src: ["**/*"]
+          dest: jsDir
+        ]
+
   grunt.loadNpmTasks "grunt-contrib-watch"
   grunt.loadNpmTasks "grunt-contrib-clean"
+  grunt.loadNpmTasks "grunt-contrib-copy"
   grunt.loadNpmTasks "grunt-contrib-coffee"
   grunt.loadNpmTasks "grunt-mocha-cov"
 
 
-  grunt.registerTask "test", ["clean", "coffee", "mochacov:unit", "mochacov:coverage"]
+  grunt.registerTask "test", ["clean", "coffee", "mochacov:unit", "mochacov:coverage", "copy"]
 
-  grunt.registerTask "travis", ["clean", "coffee", "mochacov"]
+  grunt.registerTask "travis", ["clean", "coffee", "mochacov", "copy"]
 
