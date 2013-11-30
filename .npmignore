@@ -1,6 +1,7 @@
 /Gruntfile.coffee
 /.travis.yml
 /.gitignore
+/.npmignore
 /src
 /test
 /build
