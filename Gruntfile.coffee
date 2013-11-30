@@ -61,7 +61,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-mocha-cov"
 
 
-  grunt.registerTask "test", ["clean", "coffee", "mochacov:unit", "mochacov:coverage"]
+  grunt.registerTask "default", ["clean", "coffee", "mochacov:unit", "mochacov:coverage"]
 
   grunt.registerTask "travis", ["clean", "coffee", "mochacov"]
 

@@ -1,17 +1,17 @@
 {
-    "name": "math",
+    "name": "m4th",
     "version": "0.0.0",
     "description": "Math stuff",
     "main": "./lib/matrix.js",
     "scripts": {
         "test": "./node_modules/.bin/grunt travis",
+        "prepublish": "./node_modules/.bin/grunt",
         "blanket": {
             "pattern": "/lib/",
             "data-cover-never": "/node_modules/"
         }
     },
-    "dependencies": {
-    },
+    "dependencies": {},
     "devDependencies": {
         "grunt-cli": "latest",
         "grunt-contrib-watch": "latest",
