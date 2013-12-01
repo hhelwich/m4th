@@ -12,6 +12,7 @@
         "grunt-cli": "latest",
         "grunt-contrib-watch": "latest",
         "grunt-contrib-clean": "latest",
+        "grunt-contrib-copy": "latest",
         "grunt-contrib-coffee": "latest",
         "grunt-mocha-cov": "latest",
         "chai": "latest",

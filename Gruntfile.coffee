@@ -54,13 +54,19 @@ module.exports = (grunt) ->
       options:
         files: "#{workDir}/#{testSrcDir}/**/*.js"
 
+    copy:
+      markup:
+        src: "*.md"
+        dest: "#{workDir}/#{srcDir}/"
+
   grunt.loadNpmTasks "grunt-contrib-watch"
   grunt.loadNpmTasks "grunt-contrib-clean"
   grunt.loadNpmTasks "grunt-contrib-coffee"
   grunt.loadNpmTasks "grunt-mocha-cov"
+  grunt.loadNpmTasks "grunt-contrib-copy"
 
 
-  grunt.registerTask "default", ["clean", "coffee", "mochacov:unit", "mochacov:coverage"]
+  grunt.registerTask "default", ["clean", "coffee", "mochacov:unit", "mochacov:coverage", "copy"]
 
-  grunt.registerTask "travis", ["clean", "coffee", "mochacov"]
+  grunt.registerTask "travis", ["clean", "coffee", "mochacov", "copy"]
 
