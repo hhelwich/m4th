@@ -1,12 +1,10 @@
-language: node_js
-node_js:
-  - "0.10"
-
-before_deploy: "cd build/src"
-
-deploy:
-  provider: npm
+before_deploy: cd build/src
+deploy: 
+  api_key: 
+    secure: OJoC1Zbf6/IffnOCAUzuC5v64qpOgYxS0wsgUYFB4eiGh2Ko72imybtz75Jbi/21JhDbdcuLfudYW97mAZwDAJvcKcmVd+JtecNyrFzHrnp/10UOiGLdQt68YW/aFCwNK/h/PtdUl5Or7Wd16tZbcxrCXnimS8e7cxISpQoQM0M=
   email: hendrik@helwich.de
-  api_key:
-    secure: PqKkvu6uvUoTAYCblPcw+qJKC4ap52YdxkQywZMVhUCQBBDSV6e2zUitr7awZ4IB/Bz7UufbFDyzgWINQMmPbpaCdnavxc3VRL9KKX5LnHdUYFfbTvau4DbDGliN2pNtKPpdPVvWz8zUZLqrAHaKmJBr127fr4ZredYmj20Ie7I=
+  provider: npm
   skip_cleanup: true
+language: node_js
+node_js: 
+- "0.10"
