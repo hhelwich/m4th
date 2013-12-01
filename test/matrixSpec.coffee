@@ -1,6 +1,6 @@
 expect = (require "chai").expect
 
-M = require "../lib/matrix"
+M = require "../src/matrix"
 
 describe "Matrix module", ->
 

@@ -3,11 +3,12 @@
     "version": "0.0.0",
     "description": "Math stuff",
     "main": "./lib/matrix.js",
+    "private": true,
     "scripts": {
         "test": "./node_modules/.bin/grunt travis",
         "prepublish": "./node_modules/.bin/grunt",
         "blanket": {
-            "pattern": "/lib/",
+            "pattern": "/build/src/",
             "data-cover-never": "/node_modules/"
         }
     },

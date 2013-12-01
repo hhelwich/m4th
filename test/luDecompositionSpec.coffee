@@ -4,8 +4,8 @@ expect = chai.expect
 chai.use require "./approxAssertion"
 
 
-M = require "../lib/matrix"
-_ = require "../lib/luDecomposition"
+M = require "../src/matrix"
+_ = require "../src/luDecomposition"
 
 describe "LU decomposition module", ->
 

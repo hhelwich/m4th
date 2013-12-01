@@ -1,6 +1,6 @@
 expect = (require "chai").expect
 
-_ = require "../../lib/util/obj"
+_ = require "../../src/util/obj"
 
 describe "Object utils", ->
 

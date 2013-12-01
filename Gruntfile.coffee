@@ -1,4 +1,3 @@
-jsDir = "lib"
 workDir = "build"
 srcDir = "src"
 testSrcDir = "test"
@@ -10,7 +9,7 @@ module.exports = (grunt) ->
 
     pkg: grunt.file.readJSON "package.json"
 
-    clean: [jsDir, workDir]
+    clean: ["#{workDir}/**/*.js"]
 
     watch:
       files: [
@@ -28,7 +27,7 @@ module.exports = (grunt) ->
         cwd: "#{srcDir}"
         expand: true
         src: ["**/*.coffee"]
-        dest: "#{jsDir}"
+        dest: "#{workDir}/#{srcDir}"
         ext: ".js"
       test:
         options:
@@ -36,7 +35,7 @@ module.exports = (grunt) ->
         cwd: "#{testSrcDir}"
         expand: true
         src: ["**/*.coffee"]
-        dest: "#{workDir}"
+        dest: "#{workDir}/#{testSrcDir}"
         ext: ".js"
 
     mochacov:
@@ -53,7 +52,7 @@ module.exports = (grunt) ->
             serviceName: "travis-ci"
             repoToken: "vBydWgH1Jjg4EqJaYgn3mQOg0FVsXETth"
       options:
-        files: "#{workDir}/**/*.js"
+        files: "#{workDir}/#{testSrcDir}/**/*.js"
 
   grunt.loadNpmTasks "grunt-contrib-watch"
   grunt.loadNpmTasks "grunt-contrib-clean"
