@@ -1,7 +1,7 @@
 M = require "./matrix"
-createConstructor = (require "./util/obj").createConstructor
 
-fail = (require "./util/log").fail
+{createConstructor} = require "ut1l/obj"
+{fail} = require "ut1l/log"
 
 
 udDecompConstructor = (A, T = do A.clone, U = T, D = T) ->

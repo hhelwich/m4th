@@ -3,11 +3,12 @@
     "scripts": {
         "test": "./node_modules/.bin/grunt travis",
         "blanket": {
-            "pattern": "/build/src/",
-            "data-cover-never": "/node_modules/"
+            "pattern": "m4th/build/src/"
         }
     },
-    "dependencies": {},
+    "dependencies": {
+        "ut1l": "latest"
+    },
     "devDependencies": {
         "grunt-cli": "latest",
         "grunt-contrib-watch": "latest",

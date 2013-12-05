@@ -4,12 +4,11 @@
 # -------------------
 
 # Import logger.
-log = require "./util/log"
+{fail} = require "ut1l/log"
 
-createConstructor = (require "./util/obj").createConstructor
+{createConstructor} = require "ut1l/obj"
 
 # Create some shortcuts.
-fail = log.fail
 failUnmatchingDimensions = -> fail "invalid dimension"
 floor = Math.floor
 
