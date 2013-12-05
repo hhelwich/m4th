@@ -2,6 +2,7 @@ m4th [![Build Status](https://travis-ci.org/hhelwich/m4th.png?branch=master)](ht
 ====
 
 A library to use in the browser or node.js. It currently contains:
+
 * Basic Matrix operations
 * LU decomposition
 * UD decomposition
@@ -71,4 +72,29 @@ console.log("double elements of B and add C = " + B.zip(function(b, c){return 2*
 console.log("copy of A = " + A.clone());
 console.log("A is square? = " + A.isSquare());
 console.log("A has same size as B? = " + A.isSameSize(B));
+```
+
+
+
+Example LU decomposition
+------------------------
+
+```javascript
+var M = m4th.matrix; // node.js: require('m4th/matrix');
+
+// create some matrices:
+var A = M([  2,  1, -1,
+            -3, -1,  2,
+            -2,  1,  2, ]);
+           
+var y = M([  8, 
+           -11, 
+            -3 ], 1);
+
+// LU decompose matrix A          
+var LU = m4th.lu(A); // node.js: require('m4th/lu');
+// calculate solution for: y = A*x
+var x = LU.solve(y);
+// invert matrix A
+var Ainv = LU.getInverse();
 ```
