@@ -98,3 +98,25 @@ var x = LU.solve(y);
 // invert matrix A
 var Ainv = LU.getInverse();
 ```
+
+
+Example UD decomposition
+------------------------
+
+```javascript
+var M = m4th.matrix; // node.js: require('m4th/matrix');
+
+// create some matrices:
+var A = M([ 2, 1, 1, 3, 2, 
+            1, 2, 2, 1, 1, 
+            1, 2, 9, 1, 5,
+            3, 1, 1, 7, 1,
+            2, 1, 5, 1, 8 ]);
+           
+var y = M([ -2, 4, 3, -5, 1 ], 1);
+
+// UD decompose matrix A          
+var UD = m4th.ud(A); // node.js: require('m4th/ud');
+// calculate solution for: y = A*x
+var x = UD.solve(y);
+```
