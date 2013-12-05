@@ -5,7 +5,7 @@ A library to use in the browser or node.js. It currently contains:
 
 * Basic Matrix operations
 * LU decomposition
-* UD decomposition
+* UD decomposition (optimized cholesky decomposition)
 
 Browser
 -------
@@ -16,7 +16,7 @@ To use the library in the browser, you need to include [this](https://raw.github
 <script src="m4th.min.js"></script>
 ```
 
-It exports the global `m4th` object. Now you can access e.g. the matrix contructor with:
+It exports the global `m4th` object. Now you can access e.g. the matrix constructor with:
 
 ```javascript
 var M = m4th.matrix;
@@ -31,7 +31,7 @@ You can install this package with:
 npm install m4th
 ```
 
-Now you can load e.g. the matrix contructor with:
+Now you can load e.g. the matrix constructor with:
 
 ```javascript
 var M = require('m4th/matrix');
@@ -68,7 +68,8 @@ console.log("fill B with constant value = " + B.fill(2));
 console.log("get element in row 2 and column 3 of B = " + B.get(1, 2));
 console.log("set element in row 2 and column 3 of B to 9 = " + B.set(1, 2, 9));
 console.log("square each element of B = " + B.map(function(x){return x*x;}));
-console.log("double elements of B and add C = " + B.zip(function(b, c){return 2*b+c;}, C));
+console.log("double elements of B and add C = " + 
+                                    B.zip(function(b, c){return 2*b+c;}, C));
 console.log("copy of A = " + A.clone());
 console.log("A is square? = " + A.isSquare());
 console.log("A has same size as B? = " + A.isSameSize(B));
