@@ -10,5 +10,3 @@ deploy:
   api_key:
     secure: OJoC1Zbf6/IffnOCAUzuC5v64qpOgYxS0wsgUYFB4eiGh2Ko72imybtz75Jbi/21JhDbdcuLfudYW97mAZwDAJvcKcmVd+JtecNyrFzHrnp/10UOiGLdQt68YW/aFCwNK/h/PtdUl5Or7Wd16tZbcxrCXnimS8e7cxISpQoQM0M=
   skip_cleanup: true
-  on:
-    tags: true
