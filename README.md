@@ -58,6 +58,10 @@ console.log("C = " + C);
 console.log("height of A = " + A.height);
 console.log("width of A = " + A.width);
 
+// get / set matrix elements
+console.log("get element in row 2 and column 3 of B = " + B.get(1, 2));
+B.set(1, 2, 9); // set element in row 2 and column 3 of B to 9
+
 // calculate some results without changing the matrices A, B and C:
 console.log("A*B = " + A.mult(B));
 console.log("B+C = " + B.add(C));
@@ -65,8 +69,6 @@ console.log("C-B = " + C.minus(B));
 console.log("B*3 = " + B.times(3));
 console.log("B^t = " + B.transp());
 console.log("fill B with constant value = " + B.fill(2));
-console.log("get element in row 2 and column 3 of B = " + B.get(1, 2));
-console.log("set element in row 2 and column 3 of B to 9 = " + B.set(1, 2, 9));
 console.log("square each element of B = " + B.map(function(x){return x*x;}));
 console.log("double elements of B and add C = " + 
                                     B.zip(function(b, c){return 2*b+c;}, C));
@@ -86,7 +88,7 @@ var M = m4th.matrix; // node.js: require('m4th/matrix');
 // create some matrices:
 var A = M([  2,  1, -1,
             -3, -1,  2,
-            -2,  1,  2, ]);
+            -2,  1,  2 ]);
            
 var y = M([  8, 
            -11, 
