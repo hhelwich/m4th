@@ -19,7 +19,7 @@
         "chai": "latest",
         "mocha-term-cov-reporter": "latest"
     },
-    "repository": "https://github.com/hhelwich/math.git",
+    "repository": "https://github.com/hhelwich/m4th.git",
     "author": "Hendrik Helwich",
     "license": ""
 }
