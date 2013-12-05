@@ -50,7 +50,7 @@ module.exports = (grunt) ->
         options:
           coveralls:
             serviceName: "travis-ci"
-            repoToken: "vBydWgH1Jjg4EqJaYgn3mQOg0FVsXETth"
+            repoToken: "Y02eptZNwHn8OUUsSCiQyz0ZhQ6iQGoTG"
       options:
         files: "#{workDir}/**/*.js"
 
