@@ -5,7 +5,7 @@ chai.use require "./approxAssertion"
 
 
 M = require "../src/matrix"
-_ = require "../src/luDecomposition"
+_ = require "../src/lu"
 
 describe "LU decomposition module", ->
 
