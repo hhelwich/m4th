@@ -17,7 +17,9 @@
         "grunt-contrib-coffee": "latest",
         "grunt-mocha-cov": "latest",
         "chai": "latest",
-        "mocha-term-cov-reporter": "latest"
+        "mocha-term-cov-reporter": "latest",
+        "grunt-browserify": "latest",
+        "grunt-contrib-uglify": "latest"
     },
     "repository": "https://github.com/hhelwich/m4th.git",
     "author": "Hendrik Helwich",

@@ -2,7 +2,6 @@
     "name": "m4th",
     "version": "0.0.0",
     "description": "Math stuff",
-    "main": "./matrix.js",
     "dependencies": {
         "ut1l": "latest"
     },

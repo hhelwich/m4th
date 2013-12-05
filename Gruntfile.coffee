@@ -59,14 +59,29 @@ module.exports = (grunt) ->
         src: "*.md"
         dest: "#{workDir}/#{srcDir}/"
 
+    browserify:
+      dist:
+        files: do ->
+          files = {}
+          files["#{workDir}/all.js"] = ["#{workDir}/#{srcDir}/**/*.js"]
+          files
+
+    uglify:
+      dist:
+        files:
+          "m4th.min.js": ["#{workDir}/all.js"]
+
+
   grunt.loadNpmTasks "grunt-contrib-watch"
   grunt.loadNpmTasks "grunt-contrib-clean"
   grunt.loadNpmTasks "grunt-contrib-coffee"
   grunt.loadNpmTasks "grunt-mocha-cov"
   grunt.loadNpmTasks "grunt-contrib-copy"
+  grunt.loadNpmTasks "grunt-browserify"
+  grunt.loadNpmTasks "grunt-contrib-uglify"
 
 
-  grunt.registerTask "default", ["clean", "coffee", "mochacov:unit", "mochacov:coverage", "copy"]
+  grunt.registerTask "default", ["clean", "coffee", "mochacov:unit", "mochacov:coverage", "copy", "browserify", "uglify"]
 
-  grunt.registerTask "travis", ["clean", "coffee", "mochacov", "copy"]
+  grunt.registerTask "travis", ["clean", "coffee", "mochacov", "copy", "browserify", "uglify"]
 
