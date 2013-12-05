@@ -52,7 +52,7 @@ module.exports = (grunt) ->
             serviceName: "travis-ci"
             repoToken: "vBydWgH1Jjg4EqJaYgn3mQOg0FVsXETth"
       options:
-        files: "#{workDir}/#{testSrcDir}/**/*.js"
+        files: "#{workDir}/**/*.js"
 
     copy:
       markup:
