@@ -37,8 +37,11 @@ Now you can load e.g. the matrix constructor with:
 var M = require('m4th/matrix');
 ```
 
-Example
--------
+Examples
+========
+
+Matrix Operations
+-----------------
 
 ```javascript
 // create some matrices:
@@ -79,12 +82,10 @@ console.log("A has same size as B? = " + A.isSameSize(B));
 
 
 
-Example LU decomposition
-------------------------
+LU decomposition
+----------------
 
 ```javascript
-var M = m4th.matrix; // node.js: require('m4th/matrix');
-
 // create some matrices:
 var A = M([  2,  1, -1,
             -3, -1,  2,
@@ -95,7 +96,7 @@ var y = M([  8,
             -3 ], 1);
 
 // LU decompose matrix A          
-var LU = m4th.lu(A); // node.js: require('m4th/lu');
+var LU = m4th.lu(A); // node.js: require('m4th/lu')(A);
 // calculate solution for: y = A*x
 var x = LU.solve(y);
 // invert matrix A
@@ -103,12 +104,10 @@ var Ainv = LU.getInverse();
 ```
 
 
-Example UD decomposition
-------------------------
+UD decomposition
+----------------
 
 ```javascript
-var M = m4th.matrix; // node.js: require('m4th/matrix');
-
 // create some matrices:
 var A = M([ 2, 1, 1, 3, 2, 
             1, 2, 2, 1, 1, 
@@ -119,7 +118,7 @@ var A = M([ 2, 1, 1, 3, 2,
 var y = M([ -2, 4, 3, -5, 1 ], 1);
 
 // UD decompose matrix A          
-var UD = m4th.ud(A); // node.js: require('m4th/ud');
+var UD = m4th.ud(A); // node.js: require('m4th/ud')(A);
 // calculate solution for: y = A*x
 var x = UD.solve(y);
 ```
