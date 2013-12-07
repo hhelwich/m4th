@@ -1,4 +1,4 @@
-m4th [![Build Status](https://travis-ci.org/hhelwich/m4th.png?branch=master)](https://travis-ci.org/hhelwich/m4th) [![Coverage Status](https://coveralls.io/repos/hhelwich/m4th/badge.png)](https://coveralls.io/r/hhelwich/m4th)
+m4th [![NPM version](https://badge.fury.io/js/m4th.png)](http://badge.fury.io/js/m4th) [![Build Status](https://travis-ci.org/hhelwich/m4th.png?branch=master)](https://travis-ci.org/hhelwich/m4th) [![Coverage Status](https://coveralls.io/repos/hhelwich/m4th/badge.png)](https://coveralls.io/r/hhelwich/m4th)
 ====
 
 A library to use in the browser or node.js. It currently contains:
