@@ -9,7 +9,7 @@ module.exports = (grunt) ->
 
     pkg: grunt.file.readJSON "package.json"
 
-    clean: ["#{workDir}/**/*.js"]
+    clean: ["#{workDir}/*.js", "#{workDir}/#{srcDir}/*.js", "#{workDir}/#{testSrcDir}"]
 
     watch:
       files: [
