@@ -6,7 +6,7 @@
 # Import logger.
 {fail} = require "ut1l/log"
 
-{createConstructor} = require "ut1l/obj"
+{creator} = require "ut1l/obj"
 
 # Create some shortcuts.
 failUnmatchingDimensions = -> fail "invalid dimension"
@@ -193,6 +193,6 @@ matrixProto =
 # ----------
 
 # Export Matrix constructor.
-module.exports = createMatrix = createConstructor matrixProto, matrixConstructor, matrixStatic
+module.exports = createMatrix = creator matrixProto, matrixConstructor, matrixStatic
 
 

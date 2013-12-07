@@ -2,7 +2,7 @@
 
 M = require "./matrix"
 
-{createConstructor} = require "ut1l/obj"
+{creator} = require "ut1l/obj"
 
 {fail} = require "ut1l/log"
 
@@ -60,4 +60,4 @@ luDecompPrototype =
 
 
 
-module.exports = createConstructor luDecompPrototype, luDecompConstructor
+module.exports = creator luDecompPrototype, luDecompConstructor
