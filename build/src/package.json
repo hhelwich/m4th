@@ -1,6 +1,7 @@
 {
     "name": "m4th",
     "version": "0.0.0",
+    "main": "index.js",
     "description": "Math stuff",
     "dependencies": {
         "ut1l": "latest"
