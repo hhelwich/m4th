@@ -17,7 +17,7 @@ module.exports = (grunt) ->
         "#{srcDir}/**/*.coffee"
         "#{testSrcDir}/**/*.coffee"
       ]
-      tasks: ["default"]
+      tasks: ["cs"]
 
     # Transcompile CoffeeScript to JavaScript files
     coffee:
@@ -85,3 +85,4 @@ module.exports = (grunt) ->
 
   grunt.registerTask "travis", ["clean", "coffee", "mochacov", "copy", "browserify", "uglify"]
 
+  grunt.registerTask "cs", ["clean", "coffee"]
