@@ -139,7 +139,7 @@ describe "Matrix module", ->
 
       B = A.clone()
       C = B.map((x) -> x*x)
-      expect(C).not.to.equal B # in place ?
+      expect(C).not.to.equal B # not in place ?
       # adapted correctly ?
       expect(C).to.deep.equal A2
 
@@ -156,6 +156,23 @@ describe "Matrix module", ->
       expect(B).to.deep.equal A # B adapted correctly ?
       expect(D).to.equal C # A returned ?
       expect(D).to.deep.equal A2 # B adapted correctly ?
+
+    it "maps two matrices to a new one", ->
+      B = A.clone()
+      B2 = A2.clone()
+      C = B.map B2, (a, b) -> b - a
+      expect(C).to.deep.equal A2_A
+      expect(C).not.to.equal B
+      expect(B).to.deep.equal A
+      expect(B2).to.deep.equal A2
+
+    it "maps two matrices to the first in place", ->
+      B = A.clone()
+      B2 = A2.clone()
+      C = B.map B2, ((a, b) -> b - a), B
+      expect(C).to.deep.equal A2_A
+      expect(C).to.equal B
+      expect(B2).to.deep.equal A2
 
 
   describe "times() function", ->
@@ -182,26 +199,6 @@ describe "Matrix module", ->
       expect(C).not.to.equal B # not in place ?
       expect(C).to.deep.equal M [ 7, 7, 7
                             7, 7, 7 ], 3 # adapted correctly ?
-
-
-  describe "zip() function", ->
-
-    it "maps two matrices to a new one", ->
-      B = A.clone()
-      B2 = A2.clone()
-      C = B.zip(((a, b) -> b - a), B2)
-      expect(C).to.deep.equal A2_A
-      expect(C).not.to.equal B
-      expect(B).to.deep.equal A
-      expect(B2).to.deep.equal A2
-
-    it "maps two matrices to the first in place", ->
-      B = A.clone()
-      B2 = A2.clone()
-      C = B.zip(((a, b) -> b - a), B2, B)
-      expect(C).to.deep.equal A2_A
-      expect(C).to.equal B
-      expect(B2).to.deep.equal A2
 
 
   describe "add() function", ->

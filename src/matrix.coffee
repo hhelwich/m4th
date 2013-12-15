@@ -98,12 +98,30 @@ matrixProto =
   isSquare: ->
     @height == @width
 
-  # Apply function `f(a)` to all elements of the matrix and return the resulting matrix.
+  # Apply function `f(a,b,c...)` to all elements of a list of matrices with the same size and return the resulting
+  # matrix.
   # An optional matrix `T` can be specified to store the result into instead of creating a new matrix.
-  # To apply the given function in place, give the matrix reference as second parameter.
-  # Throws an error if `T` is given and it does not has the same size as the matrix.
-  map: (f, T) ->
-    @zip ((a) -> f a), @, T # reuse zip(); wrap function f to hide second argument
+  # Throws an error if not all given matrices are of the same size.
+  map: ->
+    args = arguments
+    n = args.length - 1
+    if args[n] == undefined # ignore last argument if undefined
+      n -= 1
+    if typeof args[n] != "function" # => last argument must be a buffer
+      T = args[n--]
+      if not @isSameSize T
+        failUnmatchingDimensions()
+    else # no buffer matrix argument
+      T = createMatrix @width, @height
+    func = args[n] # mapping function
+    l = T.height * T.width
+    elements = [] # mapping function input parameters
+    for i in [0...l] by 1                    # iterate matrix elements
+      elements[0] = @array[i]                # set first input param
+      for k in [0...n] by 1                  # set more input params if available
+        elements[k+1] = args[k].array[i]
+      T.array[i] = func.apply null, elements # calculate matrix element from input params
+    T
 
   # Return a copy of the matrix.
   # An optional matrix `T` can be specified to store the result into instead of creating a new matrix.
@@ -123,27 +141,17 @@ matrixProto =
   times: (s, T) ->
     @map ((x) -> s*x), T
 
-  # Apply function `f(a,b)` to all corresponding elements of the matrix and matrix `B` and return the resulting matrix.
-  # An optional matrix `T` can be specified to store the result into instead of creating a new matrix.
-  # Throws an error if the matrix is not the same size as `B` (and `T`).
-  zip: (f, B, T = createMatrix @width, @height) ->
-    if not @isSameSize B or not @isSameSize T
-      failUnmatchingDimensions()
-    for el, n in @array
-      T.array[n] = f el, B.array[n]
-    T
-
   # Add the matrix and matrix `B` and return the result.
   # An optional matrix `T` can be specified to store the result into instead of creating a new matrix.
   # Throws an error if the matrix is not the same size as `B` (and `T`).
   add: (B, T) ->
-    @zip add, B, T
+    @map B, add, T
 
   # Subtract matrix `B` from the matrix and return the result.
   # An optional matrix `T` can be specified to store the result into instead of creating a new matrix.
   # Throws an error if the matrix is not the same size as `B` (and `T`).
   minus: (B, T) ->
-    @zip minus, B, T
+    @map B, minus, T
 
   # Returns the transposed matrix.
   # An optional matrix `T` can be specified to store the result into instead of creating a new matrix.
