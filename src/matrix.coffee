@@ -37,15 +37,21 @@ matrixConstructorEmpty = (@width, @height = width) ->
 # Construct a new matrix with the given one dimensional content array (not copied) of the size = width * height.
 # Second optional parameter must be the width of the matrix. The height of the matrix is derived from the array size.
 # If this param is omitted, the matrix is initialized as square matrix.
-matrixConstructorContent = (@array, @width = Math.sqrt array.length) ->
+matrixConstructorContent = (@width, @array) ->
   @height = if array.length == 0 then 0 else array.length / @width
   if @height != (floor @height) or @width != (floor @width)
     fail "invalid array size"
   return
 
 # Forward to above constructors.
-matrixConstructor = (arrayOrWidth) ->
-  (if typeof arrayOrWidth == "number" then matrixConstructorEmpty else matrixConstructorContent).apply @, arguments
+matrixConstructor = (arrayOrWidth, arrayOrHeight) ->
+  if typeof arrayOrWidth == "number"
+    if not arrayOrHeight? or typeof arrayOrHeight == "number"
+      matrixConstructorEmpty.call @, arrayOrWidth, arrayOrHeight
+    else
+      matrixConstructorContent.call @, arrayOrWidth, arrayOrHeight
+  else
+    matrixConstructorContent.call @, (floor Math.sqrt arrayOrWidth.length), arrayOrWidth
 
 
 # Matrix statics

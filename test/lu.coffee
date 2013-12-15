@@ -13,23 +13,31 @@ describe "LU decomposition module", ->
 
   beforeEach ->
 
-    A = M [ 1,  2,  3
-            4,  5,  6
-            7,  8,  0 ]
+    A = M [
+      1,  2,  3
+      4,  5,  6
+      7,  8,  0
+    ]
 
-    L = M [ 1,  0,  0
-            4,  1,  0
-            7,  2,  1 ]
+    L = M [
+      1,  0,  0
+      4,  1,  0
+      7,  2,  1
+    ]
 
-    U = M [ 1,  2,  3
-            0, -3, -6
-            0,  0, -9 ]
+    U = M [
+      1,  2,  3
+      0, -3, -6
+      0,  0, -9
+    ]
 
     LU = L.minus(M.I 3).add U
 
-    B = M [ 10, 4
-             3, 8
-            -2, 1 ], 2
+    B = M [
+      10, 4
+       3, 8
+      -2, 1
+    ]
 
 
   describe "LU decomposition", ->

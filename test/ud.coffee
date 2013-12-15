@@ -14,14 +14,18 @@ describe "UD decomposition module", ->
   beforeEach ->
 
     # any square upper unit triangular matrix
-    U = M [ 1, -2,  3
-            0,  1, -4
-            0,  0,  1 ]
+    U = M [
+      1, -2,  3
+      0,  1, -4
+      0,  0,  1
+    ]
 
     # any square diagonal matrix
-    D = M [ 6,  0, 0
-            0, -3, 0
-            0,  0, 7 ]
+    D = M [
+      6,  0, 0
+      0, -3, 0
+      0,  0, 7
+    ]
 
     # spd matrix A = U * D * U^t
     A = (U.mult D).mult U.transp()
@@ -29,9 +33,11 @@ describe "UD decomposition module", ->
     # expected in place UD transpose B = U - I + D
     UD = (U.minus M.I U.height).add D
 
-    B = M [ 3, -7
-            5,  6
-            9,  8 ], 2
+    B = M [
+      3, -7
+      5,  6
+      9,  8
+    ]
 
 
   describe "UD decomposition", ->

@@ -45,12 +45,18 @@ Matrix Operations
 
 ```javascript
 // create some matrices:
-var A = M([ 3,  2,
-            1,  0 ]);
-var B = M([ 1,  2,  3,
-            4,  5,  7 ], 3);
-var C = M([ 0,  6,  8,
-            3, -3,  5 ], 3);
+var A = M([
+    3,  2,
+    1,  0
+]);
+var B = M(3,[
+    1,  2,  3,
+    4,  5,  7
+]);
+var C = M(3,[
+    0,  6,  8,
+    3, -3,  5
+]);
 
 // output matrix content:
 console.log("A = " + A);
@@ -74,7 +80,7 @@ console.log("B^t = " + B.transp());
 console.log("fill B with constant value = " + B.fill(2));
 console.log("square each element of B = " + B.map(function(x){return x*x;}));
 console.log("double elements of B and add C = " + 
-                                    B.zip(function(b, c){return 2*b+c;}, C));
+                                    B.map(C, function(b, c){return 2*b+c;}));
 console.log("copy of A = " + A.clone());
 console.log("A is square? = " + A.isSquare());
 console.log("A has same size as B? = " + A.isSameSize(B));
@@ -87,13 +93,17 @@ LU decomposition
 
 ```javascript
 // create some matrices:
-var A = M([  2,  1, -1,
-            -3, -1,  2,
-            -2,  1,  2 ]);
+var A = M([
+     2,  1, -1,
+    -3, -1,  2,
+    -2,  1,  2
+]);
            
-var y = M([  8, 
-           -11, 
-            -3 ], 1);
+var y = M(1,[
+      8,
+    -11,
+     -3
+]);
 
 // LU decompose matrix A          
 var LU = m4th.lu(A); // node.js: require('m4th/lu')(A);
@@ -109,13 +119,15 @@ UD decomposition
 
 ```javascript
 // create some matrices:
-var A = M([ 2, 1, 1, 3, 2, 
-            1, 2, 2, 1, 1, 
-            1, 2, 9, 1, 5,
-            3, 1, 1, 7, 1,
-            2, 1, 5, 1, 8 ]);
+var A = M([
+    2, 1, 1, 3, 2,
+    1, 2, 2, 1, 1,
+    1, 2, 9, 1, 5,
+    3, 1, 1, 7, 1,
+    2, 1, 5, 1, 8
+]);
            
-var y = M([ -2, 4, 3, -5, 1 ], 1);
+var y = M(1,[ -2, 4, 3, -5, 1 ]);
 
 // UD decompose matrix A          
 var UD = m4th.ud(A); // node.js: require('m4th/ud')(A);

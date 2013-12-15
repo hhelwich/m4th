@@ -11,17 +11,25 @@ describe "Matrix module", ->
 
   beforeEach ->
 
-    A  =   M [ 1,  3,  5
-               2,  4,  6 ], 3
+    A  =   M 3,[
+      1,  3,  5
+      2,  4,  6
+    ]
     # a_{ij}^2
-    A2 =   M [ 1,  9, 25
-               4, 16, 36 ], 3
+    A2 =   M 3,[
+      1,  9, 25
+      4, 16, 36
+    ]
     # a_{ij}*3
-    A3 =   M [ 3,  9, 15
-               6, 12, 18 ], 3
+    A3 =   M 3,[
+      3,  9, 15
+      6, 12, 18
+    ]
     # A2 - A
-    A2_A = M [ 0,  6, 20
-               2, 12, 30 ], 3
+    A2_A = M 3,[
+      0,  6, 20
+      2, 12, 30
+    ]
 
   describe "Matrix constructor", ->
 
@@ -34,16 +42,20 @@ describe "Matrix module", ->
 
     it "should be able to create a new square matrix without width param", ->
 
-      B = M [ 1, 2, 3
-              4, 5, 6
-              7, 8, 9 ]
+      B = M [
+        1, 2, 3
+        4, 5, 6
+        7, 8, 9
+      ]
       expect(B.height).to.equal 3
       expect(B.width).to.equal 3
 
     it "should be able to create a new rectangular matrix", ->
 
-      B = M [ 1, 2, 3
-              4, 5, 6 ], 3
+      B = M 3,[
+        1, 2, 3
+        4, 5, 6
+      ]
       expect(B.height).to.equal 2
       expect(B.width).to.equal 3
 
@@ -62,13 +74,15 @@ describe "Matrix module", ->
       (expect B.get 1, 2).to.be.undefined
 
     it "should throw on wrong width", ->
+      expect(-> M 2, [ 1, 2, 3 ]).to.throw()
 
-      expect(-> M [ 1, 2, 3 ], 2).to.throw()
+    it "should use floor square array size as width if no width is given", ->
+      A = M [ 1, 2, 3, 4, 5, 6 ]
+      (expect A.height).to.equal 3
+      (expect A.width).to.equal 2
 
-    it "should throw on param call with not square array size", ->
-
-      expect(-> M [ 1, 2, 3 ]).to.throw()
-
+    it "should throw on irregular array size", ->
+      expect(-> M [ 1, 2, 3, 4, 5, 6, 7 ]).to.throw()
 
   describe "get() function", ->
 
@@ -100,7 +114,7 @@ describe "Matrix module", ->
     it "should return false on different sized matrices", ->
 
       expect(A.isSameSize(M [])).to.be.false
-      expect(A.isSameSize(M [ 1, 2, 3 ], 3)).to.be.false
+      expect(A.isSameSize(M 3, [ 1, 2, 3 ])).to.be.false
 
 
   describe "isSquare() function", ->
@@ -109,8 +123,7 @@ describe "Matrix module", ->
 
       expect((M []).isSquare()).to.be.true
       expect((M [1]).isSquare()).to.be.true
-      expect((M [1, 2
-                 3, 4]).isSquare()).to.be.true
+      expect((M [ 1, 2, 3, 4 ]).isSquare()).to.be.true
 
     it "should return false on not square matrices", ->
 
@@ -197,8 +210,10 @@ describe "Matrix module", ->
       B = A.clone()
       C = B.fill(7)
       expect(C).not.to.equal B # not in place ?
-      expect(C).to.deep.equal M [ 7, 7, 7
-                            7, 7, 7 ], 3 # adapted correctly ?
+      expect(C).to.deep.equal M 3,[  # adapted correctly ?
+        7, 7, 7
+        7, 7, 7
+      ]
 
 
   describe "add() function", ->
@@ -241,17 +256,21 @@ describe "Matrix module", ->
     it "transposes a matrix to a new matrix", ->
       B = A.clone()
       C = B.transp() # tested function
-      expect(C).to.deep.equal M [ 1, 2
-                            3, 4
-                            5, 6 ], 2 # expected result?
+      expect(C).to.deep.equal M 2,[ # expected result?
+        1, 2
+        3, 4
+        5, 6
+      ]
       expect(C).not.to.equal B # not in place?
       expect(B).to.deep.equal A # source unchanged ?
 
     it "transposes a matrix in place", ->
       C = A.transp A # tested function
-      expect(C).to.deep.equal M [ 1, 2
-                            3, 4
-                            5, 6 ], 2 # expected result?
+      expect(C).to.deep.equal M 2,[ # expected result?
+        1, 2
+        3, 4
+        5, 6
+      ]
       expect(C).to.equal A # in place?
       expect(C.array).to.equal A.array
 
@@ -259,16 +278,22 @@ describe "Matrix module", ->
   describe "mult() function", ->
 
     it "multiplies two matrices to a new matrix", ->
-      A = M [ -4,  1,  6
-              -2,  5, -3 ], 3
-      B = M [ -4, -1,  1, 6
-               0,  4, -3, 2
-               3, -2,  5, 7 ], 4
+      A = M 3,[
+        -4,  1,  6
+        -2,  5, -3
+      ]
+      B = M 4,[
+        -4, -1,  1, 6
+         0,  4, -3, 2
+         3, -2,  5, 7
+      ]
       A2 = A.clone();
       B2 = B.clone();
       C = A2.mult(B2) # tested function
-      expect(C).to.deep.equal M [ 34, -4,  23,  20
-                            -1, 28, -32, -23 ], 4 # expected result?
+      expect(C).to.deep.equal M 4,[ # expected result?
+        34, -4,  23,  20
+        -1, 28, -32, -23
+      ]
       expect(A2).to.deep.equal A # source unchanged ?
       expect(B2).to.deep.equal B # source unchanged ?
 
@@ -282,24 +307,32 @@ describe "Matrix module", ->
   describe "I()", ->
 
     it "creates a new identity matrix", ->
-      expect(M.I(3)).to.deep.equal M [ 1, 0, 0
-                                 0, 1, 0
-                                 0, 0, 1 ]
-      expect(M.I(3, 2)).to.deep.equal M [ 1, 0, 0
-                                    0, 1, 0 ], 3
+      expect(M.I(3)).to.deep.equal M [
+        1, 0, 0
+        0, 1, 0
+        0, 0, 1
+      ]
+      expect(M.I(3, 2)).to.deep.equal M 3,[
+        1, 0, 0
+        0, 1, 0
+      ]
 
 
   describe "diag()", ->
 
     it "creates a new diagonal matrix from a column vector", ->
-      expect(M.diag(M [2, 3, 4], 1)).to.deep.equal M [ 2, 0, 0
-                                                 0, 3, 0
-                                                 0, 0, 4 ]
+      expect(M.diag(M [2, 3, 4], 1)).to.deep.equal M [
+        2, 0, 0
+        0, 3, 0
+        0, 0, 4
+      ]
 
     it "can use existing buffer", ->
       T = (M.I 3).fill 5
       D = M.diag((M [2, 3, 4], 1), T)
-      expect(D).to.deep.equal M [ 2, 0, 0
-                            0, 3, 0
-                            0, 0, 4 ]
+      expect(D).to.deep.equal M [
+        2, 0, 0
+        0, 3, 0
+        0, 0, 4
+      ]
       expect(D).to.equal T
