@@ -104,6 +104,12 @@ matrixProto =
   isSquare: ->
     @height == @width
 
+  each: (handler) ->
+    for r in [0...@height] by 1
+      for c in [0...@width] by 1
+        handler (@get r, c), r, c
+    @
+
   # Apply function `f(a,b,c...)` to all elements of a list of matrices with the same size and return the resulting
   # matrix.
   # An optional matrix `T` can be specified to store the result into instead of creating a new matrix.

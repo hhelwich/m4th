@@ -145,6 +145,30 @@ describe "Matrix module", ->
       expect(B).to.equal A2
       expect(B).to.deep.equal A
 
+  describe "each() function", ->
+
+    it "can be used to iterate the matrix elements", ->
+      calls = 0
+      A.each (val, r, c) ->
+        switch r
+          when 0
+            switch c
+              when 0 then (expect val).to.equal 1
+              when 1 then (expect val).to.equal 3
+              when 2 then (expect val).to.equal 5
+              else assert false
+          when 1
+            switch c
+              when 0 then (expect val).to.equal 2
+              when 1 then (expect val).to.equal 4
+              when 2 then (expect val).to.equal 6
+              else assert false
+          else assert false
+        calls += 1
+      (expect calls).to.equal 6
+
+    it "is chainable", ->
+      (expect A.each (->)).to.equal A
 
   describe "map() function", ->
 
