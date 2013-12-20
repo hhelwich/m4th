@@ -30,28 +30,28 @@ minus = (a, b) -> a - b
 
 # Construct a new empty matrix of the given size. Creates a square matrix if only first parameter is given.
 # Matrix elements will have an `undefined` value.
-matrixConstructorEmpty = (@width, @height = width) ->
-  @array = new Array width * @height
+matrixConstructorEmpty = (@rows, @columns = rows) ->
+  @array = []
   return
 
 # Construct a new matrix with the given one dimensional content array (not copied) of the size = width * height.
 # Second optional parameter must be the width of the matrix. The height of the matrix is derived from the array size.
 # If this param is omitted, the matrix is initialized as square matrix.
-matrixConstructorContent = (@width, @array) ->
-  @height = if array.length == 0 then 0 else array.length / @width
-  if @height != (floor @height) or @width != (floor @width)
+matrixConstructorContent = (@rows, @array) ->
+  @columns = if array.length == 0 then 0 else array.length / @rows
+  if @rows != (floor @rows) or @columns != (floor @columns)
     fail "invalid array size"
   return
 
 # Forward to above constructors.
-matrixConstructor = (arrayOrWidth, arrayOrHeight) ->
-  if typeof arrayOrWidth == "number"
-    if not arrayOrHeight? or typeof arrayOrHeight == "number"
-      matrixConstructorEmpty.call @, arrayOrWidth, arrayOrHeight
+matrixConstructor = (arrayOrRows, arrayOrColumns) ->
+  if typeof arrayOrRows == "number"
+    if not arrayOrColumns? or typeof arrayOrColumns == "number"
+      matrixConstructorEmpty.call @, arrayOrRows, arrayOrColumns
     else
-      matrixConstructorContent.call @, arrayOrWidth, arrayOrHeight
+      matrixConstructorContent.call @, arrayOrRows, arrayOrColumns
   else
-    matrixConstructorContent.call @, (floor Math.sqrt arrayOrWidth.length), arrayOrWidth
+    matrixConstructorContent.call @, (floor Math.sqrt arrayOrRows.length), arrayOrRows
 
 
 # Matrix statics
@@ -60,22 +60,23 @@ matrixConstructor = (arrayOrWidth, arrayOrHeight) ->
 matrixStatic =
 
   # Create an identity matrix of the given size.
-  I: (width, height = width) ->
-    T = createMatrix width, height
+  I: (rows, columns = rows) ->
+    T = createMatrix rows, columns
     T.fill 0, T
-    for i in [0...Math.min width, height] by 1
+    for i in [0...Math.min rows, columns] by 1
       T.set i, i, 1
     T
 
   # Returns a diagonal matrix with the elements of the given column vector `x` on the diagonal.
   # An optional matrix `T` can be specified to store the result into instead of creating a new matrix.
   # Throws an error if `x` is not a column vector or if `T` is given and it is not a square matrix with the expected size
-  diag: (x, T = createMatrix x.height, x.height) ->
-    if x.width != 1 or T.height != x.height or T.width != x.height
+  diag: (x, T) ->
+    if not T?
+      T = createMatrix x.length, x.length
+    else if not T.isSize x.length
       failUnmatchingDimensions()
-    T.fill 0, T
-    for i in [0...x.height] by 1
-      T.set i, i, x.get i, 0
+    T.each (val, r, c) ->
+      T.set r, c, if r == c then x[r] else 0
     T
 
 
@@ -86,27 +87,32 @@ matrixStatic =
 matrixProto =
 
   # Returns the matrix element with the given *row* and *column*.
-  get: (row, col) ->
-    @array[row * @width + col]
+  get: (row, col = 0) ->
+    @array[row * @columns + col]
 
   # Sets the matrix element with the given *row* and *column* to the given *value*.
   # Returns the matrix to enable chaining.
   set: (row, col, val) ->
-    @array[row * @width + col] = val
+    @array[row * @columns + col] = val
     @
 
   # Returns `true` if the matrix has the same *width* and *height* as the given matrix `B`.
   # Returns `false` otherwise.
-  isSameSize: (B) ->
-    @height == B.height and @width == B.width
+  isSize: (rowsOrM, columns) ->
+    if typeof rowsOrM == "number"
+      if not columns? # height given?
+        columns = rowsOrM
+      @rows == rowsOrM and @columns == columns
+    else # assume first argument is a matrix; ignore second
+      @isSize rowsOrM.rows, rowsOrM.columns
 
   # Returns `true` if *width* and *height* of the matrix are equal. Returns `false` otherwise.
   isSquare: ->
-    @height == @width
+    @rows == @columns
 
   each: (handler) ->
-    for r in [0...@height] by 1
-      for c in [0...@width] by 1
+    for r in [0...@rows] by 1
+      for c in [0...@columns] by 1
         handler (@get r, c), r, c
     @
 
@@ -121,18 +127,20 @@ matrixProto =
       n -= 1
     if typeof args[n] != "function" # => last argument must be a buffer
       T = args[n--]
-      if not @isSameSize T
+      if not @isSize T
         failUnmatchingDimensions()
     else # no buffer matrix argument
-      T = createMatrix @width, @height
+      T = createMatrix @rows, @columns
     func = args[n] # mapping function
-    l = T.height * T.width
+    l = T.rows * T.columns
     elements = [] # mapping function input parameters
-    for i in [0...l] by 1                    # iterate matrix elements
-      elements[0] = @array[i]                # set first input param
+    T.each (val, i, j) =>                   # iterate matrix entries
+      elements[0] = @get i, j               # set first input param
       for k in [0...n] by 1                  # set more input params if available
-        elements[k+1] = args[k].array[i]
-      T.array[i] = func.apply null, elements # calculate matrix element from input params
+        elements[k+1] = args[k].get i, j
+      elements[++k] = i
+      elements[++k] = j
+      T.set i, j, func.apply @, elements # calculate matrix element from input params
     T
 
   # Return a copy of the matrix.
@@ -169,16 +177,16 @@ matrixProto =
   # An optional matrix `T` can be specified to store the result into instead of creating a new matrix.
   # Throws an error if `T` is given and different to the matrix and the *height* of `T` is not equal to the *width*
   # of the matrix or the *width* of `T` is not equal to the *height* of the matrix.
-  transp: (T = createMatrix @height, @width) ->
+  transp: (T = createMatrix @columns, @rows) ->
     if T == @ # transpose in place
       B = @clone() # TODO: manage in place transpose without creating new buffer array
-      [@height, @width] = [@width, @height] # switch dimension
+      [@rows, @columns] = [@columns, @rows] # switch dimension
       B.transp @
     else # transpose to new buffer
-      if @height != T.width or @width != T.height
+      if @rows != T.columns or @columns != T.rows
         failUnmatchingDimensions()
-      for i in [0...@width] by 1
-        for j in [0...@height] by 1
+      for i in [0...@columns] by 1
+        for j in [0...@rows] by 1
           T.set i, j, @get j, i
       T
 
@@ -186,21 +194,21 @@ matrixProto =
   # An optional matrix `T` can be specified to store the result into instead of creating a new matrix.
   # Throws an error if the matrix width is different to the height of `B` or if `T` is given and its height is different
   # to the matrix height or its width is different to the with of `B`.
-  mult: (B, T = createMatrix B.width, @height) ->
-    if @width != B.height or T.height != @height or T.width != B.width
+  mult: (B, T = createMatrix @rows,  B.columns) ->
+    if @columns != B.rows or T.rows != @rows or T.columns != B.columns
       failUnmatchingDimensions()
     T.fill 0, T # initialize with zeros
-    for i in [0...@height] by 1 # iterate rows of T
-      for j in [0...B.width] by 1 # iterate colums of T
-        for k in [0...@width] by 1 # iterate columns of A / rows of B
-          T.array[i * T.width + j] += (@get i, k) * (B.get k, j)
+    for i in [0...@rows] by 1 # iterate rows of T
+      for j in [0...B.columns] by 1 # iterate colums of T
+        for k in [0...@columns] by 1 # iterate columns of A / rows of B
+          T.array[i * T.columns + j] += (@get i, k) * (B.get k, j)
     T
 
   # Returns a human readable string serialization of the matrix.
   toString: ->
     str = ""
     for el, n in @array
-      if n % @width == 0
+      if n % @columns == 0
         if n > 0
           str += "\n"
       else

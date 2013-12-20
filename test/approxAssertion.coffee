@@ -2,7 +2,7 @@
 createAssertion = (upper) ->
   (expectedMatrix, delta = 0) ->
 
-    @assert (@_obj.isSameSize expectedMatrix),
+    @assert (@_obj.isSize expectedMatrix),
       "expected matrix #{@_obj} to have height #{expectedMatrix.height} and width #{expectedMatrix.width}",
       "expected matrix #{@_obj} to have not height #{expectedMatrix.height} or width #{expectedMatrix.width}"
 

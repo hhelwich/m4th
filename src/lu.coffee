@@ -17,13 +17,13 @@ M = require "./matrix"
 luDecompConstructor = (A, T = do A.clone) ->
   # TODO add pivoting (also more accurate?)
   # TODO allow non square matrices
-  for i in [0...T.width] by 1 # iterate columns of A
+  for i in [0...T.columns] by 1 # iterate columns of A
     # calculate U
-    for j in [i...T.width] by 1
+    for j in [i...T.columns] by 1
       for k in [0...i] by 1
         T.set i, j, (T.get i, j) - (T.get i, k) * (T.get k, j) # -=
     # calculate L
-    for j in [i+1...T.width] by 1
+    for j in [i+1...T.columns] by 1
       for k in [0...i] by 1
         T.set j, i, (T.get j, i) - (T.get j, k) * (T.get k, i) # -=
       T.set j, i, (T.get j, i) / (T.get i, i) # -=
@@ -37,25 +37,25 @@ luDecompPrototype =
 
   solve: (B, T = do B.clone) ->
     A = @lu
-    if B.height != A.width or not B.isSameSize T
+    if B.rows != A.columns or not B.isSize T
       fail "unmatching matrix dimension"
 
     # solve L*Y = B; calculate Y = L^-1 * B
-    for k in [0...A.width] by 1
-      for i in [k+1...A.width] by 1
-        for j in [0...T.width] by 1
+    for k in [0...A.columns] by 1
+      for i in [k+1...A.columns] by 1
+        for j in [0...T.columns] by 1
           T.set i, j, (T.get i, j) - (T.get k, j) * (A.get i, k) # -=
     # solve U*X = Y; calculate X = U^-1 * Y = U^-1 *L^-1 * B = A^-1 * B
-    for k in [A.width-1..0] by -1
-      for j in [0...T.width] by 1
+    for k in [A.columns-1..0] by -1
+      for j in [0...T.columns] by 1
         T.set k, j, (T.get k, j) / (A.get k, k) # /=
       for i in [0...k] by 1
-        for j in [0...T.width] by 1
+        for j in [0...T.columns] by 1
           T.set i, j, (T.get i, j) - (T.get k, j) * (A.get i, k) # -=
     T
 
   getInverse: ->
-    I = M.I @lu.width
+    I = M.I @lu.columns
     @solve I, I
 
 

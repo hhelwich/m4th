@@ -31,9 +31,9 @@ describe "UD decomposition module", ->
     A = (U.mult D).mult U.transp()
 
     # expected in place UD transpose B = U - I + D
-    UD = (U.minus M.I U.height).add D
+    UD = (U.minus M.I U.rows).add D
 
-    B = M [
+    B = M 3, [
       3, -7
       5,  6
       9,  8
