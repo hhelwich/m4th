@@ -6,7 +6,19 @@
     "dependencies": {
         "ut1l": "latest"
     },
-    "repository": "https://github.com/hhelwich/m4th.git",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/hhelwich/m4th.git"
+    },
+    "keywords": [
+        "matrix",
+        "decomposition",
+        "lu",
+        "lr",
+        "ud",
+        "cholesky",
+        "browser"
+    ],
     "author": "Hendrik Helwich",
-    "license": ""
+    "license": "MIT"
 }
