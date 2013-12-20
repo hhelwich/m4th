@@ -7,7 +7,7 @@ chai.use require "./approxAssertion"
 M = require "../src/matrix"
 _ = require "../src/ud"
 
-describe "UD decomposition module", ->
+describe "UD decomposition", ->
 
   A = U = D = UD = B = null
 

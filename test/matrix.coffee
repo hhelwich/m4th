@@ -2,7 +2,7 @@ expect = (require "chai").expect
 
 M = require "../src/matrix"
 
-describe "Matrix module", ->
+describe "Matrix", ->
 
   A = null
   A2 = null
