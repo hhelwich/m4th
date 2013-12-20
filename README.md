@@ -88,6 +88,32 @@ console.log("A has same size as B? = " + A.isSize(B));
 
 
 
+each()
+------
+
+Calculate the frobenius norm of a matrix ```A```:
+
+```javascript
+norm = 0;
+A.each(function(a) {
+  norm += a * a;
+});
+norm = Math.sqrt(norm);
+```
+
+map()
+-----
+
+Create a 5x5 hilbert matrix:
+
+```javascript
+H = M(5).map(function(h, i, j) {
+    return 1 / (i + j + 1);
+});
+```
+
+
+
 LU decomposition
 ----------------
 
