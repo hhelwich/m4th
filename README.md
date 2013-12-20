@@ -49,11 +49,11 @@ var A = M([
     3,  2,
     1,  0
 ]);
-var B = M(3,[
+var B = M(2,[
     1,  2,  3,
     4,  5,  7
 ]);
-var C = M(3,[
+var C = M(2,[
     0,  6,  8,
     3, -3,  5
 ]);
@@ -83,7 +83,7 @@ console.log("double elements of B and add C = " +
                                     B.map(C, function(b, c){return 2*b+c;}));
 console.log("copy of A = " + A.clone());
 console.log("A is square? = " + A.isSquare());
-console.log("A has same size as B? = " + A.isSameSize(B));
+console.log("A has same size as B? = " + A.isSize(B));
 ```
 
 
@@ -99,7 +99,7 @@ var A = M([
     -2,  1,  2
 ]);
            
-var y = M(1,[
+var y = M(3,[
       8,
     -11,
      -3
@@ -127,7 +127,7 @@ var A = M([
     2, 1, 5, 1, 8
 ]);
            
-var y = M(1,[ -2, 4, 3, -5, 1 ]);
+var y = M(5,[ -2, 4, 3, -5, 1 ]);
 
 // UD decompose matrix A          
 var UD = m4th.ud(A); // node.js: require('m4th/ud')(A);
