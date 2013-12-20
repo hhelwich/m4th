@@ -7,7 +7,7 @@ M = require "./matrix"
 udDecompConstructor = (A, T = do A.clone, U = T, D = T) ->
   if not do T.isSquare
     fail "matrix must be square"
-  @size = T.width
+  @size = T.columns
   for j in [@size-1..0] by -1
     for i in [j..0] by -1
       s = T.get i, j
@@ -27,19 +27,19 @@ udDecompPrototype =
   solveDiagonal: (y, t = do y.clone) ->
 
     for i in [0...@size] by 1
-      for j in [0...y.width] by 1
+      for j in [0...y.columns] by 1
         t.set i, j, y.get(i, j) / @ud.get(i, i)
     t
 
   solveUnitTriangular: (y, transp, t = do y.clone) ->
     if transp # forward substitution
-      for j in [0...y.width] by 1
+      for j in [0...y.columns] by 1
         for i in [0...@size] by 1
           t.set i, j, y.get i, j
           for k in [0...i] by 1
             t.set i, j, (t.get i, j) - (@ud.get k, i) * (t.get k, j) # -=
     else # back substitution
-      for j in [0...y.width] by 1
+      for j in [0...y.columns] by 1
         for i in [@size-1..0] by -1
           t.set i, j, y.get i, j
           for k in [i+1...@size] by 1
