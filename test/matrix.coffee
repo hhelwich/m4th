@@ -156,10 +156,96 @@ describe "Matrix", ->
         (expect r).to.equal exp[call][1]
         (expect c).to.equal exp[call][2]
         call += 1
-      (expect call).to.equal 6
+      (expect call).to.equal exp.length
 
     it "is chainable", ->
       (expect A.each (->)).to.equal A
+
+    it "binds 'this' to matrix", ->
+      A.each ->
+        (expect @).to.equal A
+
+  describe "eachDiagonal()", ->
+
+    it "iterates matrix diagonal entries", ->
+      call = 0
+      exp = [[1,0,0], [4,1,1]]
+      A.eachDiagonal (val, i, j) ->
+        (expect val).to.equal exp[call][0]
+        (expect i).to.equal exp[call][1]
+        (expect j).to.equal exp[call][2]
+        call += 1
+      (expect call).to.equal exp.length
+
+    it "is chainable", ->
+      (expect A.eachDiagonal (->)).to.equal A
+
+    it "binds 'this' to matrix", ->
+      A.eachDiagonal ->
+        (expect @).to.equal A
+
+
+  describe "reduce()", ->
+
+    it "reduces a matrix", ->
+      B = A.clone()
+      s = B.reduce (x, y) -> x + y
+      (expect B).to.deep.equal A # matrix unchanged?
+      # correct result?
+      (expect s).to.deep.equal 21
+
+    it "reduces a matrix with initial value", ->
+      B = A.clone()
+      s = B.reduce ((x, y) -> x + y), 11
+      (expect B).to.deep.equal A # matrix unchanged?
+      # correct result?
+      (expect s).to.deep.equal 32
+
+    it "binds 'this' to matrix", ->
+      A.reduce ->
+        (expect @).to.equal A
+
+  describe "reduceDiagonal()", ->
+
+    it "reduces the diagonal of a matrix", ->
+      B = A.clone()
+      s = B.reduceDiagonal (x, y) -> x + y
+      (expect B).to.deep.equal A # matrix unchanged?
+      # correct result?
+      (expect s).to.deep.equal 5
+
+    it "reduces the diagonal of a matrix with initial value", ->
+      B = A.clone()
+      s = B.reduceDiagonal ((x, y) -> x + y), 11
+      (expect B).to.deep.equal A # matrix unchanged?
+      # correct result?
+      (expect s).to.deep.equal 16
+
+    it "binds 'this' to matrix", ->
+      A.reduceDiagonal ->
+        (expect @).to.equal A
+
+
+  describe "reduceRows()", ->
+
+    it "reduces all rows of a matrix", ->
+      B = A.clone()
+      array = B.reduceRows (x, y) -> x + y
+      (expect B).to.deep.equal A # matrix unchanged?
+      # correct result?
+      (expect array).to.deep.equal [9, 12]
+
+    it "reduces all rows of a matrix with initial value", ->
+      B = A.clone()
+      array = B.reduceRows ((x, y) -> x + y), 2
+      (expect B).to.deep.equal A # matrix unchanged?
+      # correct result?
+      (expect array).to.deep.equal [11, 14]
+
+    it "binds 'this' to matrix", ->
+      A.reduceRows ->
+        (expect @).to.equal A
+
 
   describe "map()", ->
 

@@ -8,6 +8,40 @@ M = require "../src/matrix"
 
 describe "Matrix examples", ->
 
+
+  describe "trace", ->
+
+    A = null
+
+    beforeEach ->
+      A = M 3, [
+        3, 5, 7, 8
+        2, 6, 4, 9
+        0, 2, 8, 3
+      ]
+
+    it "can be calculated with for loop", ->
+      trace = 0
+      for ij in [0...Math.min A.rows, A.columns] by 1
+        trace += A.get ij, ij
+      # validate
+      (expect trace).to.equal 17
+
+    it "can be calculated with eachDiagonal()", ->
+      trace = 0
+      A.eachDiagonal (val) ->
+        trace += val
+        return
+      # validate
+      (expect trace).to.equal 17
+
+    it "can be calculated with reduceDiagonal()", ->
+      add = (x, y) -> x + y
+      trace = A.reduceDiagonal add
+      # validate
+      (expect trace).to.equal 17
+
+
   describe "norms", ->
 
     A = null
@@ -51,15 +85,29 @@ describe "Matrix examples", ->
         # validate
         (expect norm).to.equal 15
 
+      it "can be calculated nicely with reduceRows()", ->
+        addAbs = (x, y) ->
+          x + Math.abs y
+        norm = Math.max.apply null, A.reduceRows addAbs, 0
+        # validate
+        (expect norm).to.equal 15
 
     describe "frobenius norm", ->
 
       it "can be calculated nicely", ->
-        norm = 0
-        A.each (val) -> #### iterate all matrix entries ###
-          norm += val * val
-          return
-        norm = Math.sqrt norm
+        # helpers
+        square = (x) -> x * x
+        add = (x, y) -> x + y
+        # do it
+        norm = Math.sqrt (A.map square).reduce add
+        # validate
+        (expect norm).to.equal Math.sqrt 207 # ca 14.387
+
+      it "can be calculated nicely with single reduce", ->
+        # helpers
+        addSquared = (x, y) -> x + y * y
+        # do it
+        norm = Math.sqrt A.reduce addSquared, 0
         # validate
         (expect norm).to.equal Math.sqrt 207 # ca 14.387
 

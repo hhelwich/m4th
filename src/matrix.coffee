@@ -25,6 +25,12 @@ add = (a, b) -> a + b
 # Function which subtracts a number from another.
 minus = (a, b) -> a - b
 
+concatEntries = (x, y) ->
+  x + " " + y
+
+concatRows = (x, y) ->
+  x + "\n" + y
+
 # Matrix constructor
 # ------------------
 
@@ -79,6 +85,32 @@ matrixStatic =
       T.set r, c, if r == c then x[r] else 0
     T
 
+eachInRow = (row, handler) ->
+  for j in [0...@columns] by 1
+    handler.call @, (@get row, j), row, j
+  @
+
+each = (handler) ->
+  for i in [0...@rows] by 1
+    eachInRow.call @, i, handler
+  @
+
+eachDiagonal = (handler) ->
+  for ij in [0...Math.min @rows, @columns] by 1
+    handler.call @, (@get ij, ij), ij, ij
+  @
+
+makeReduce = (eachFunc) ->
+  (callback, initialValue) ->
+    value = initialValue
+    eachFunc.call @, (val, i, j) ->
+      if value?
+        value = callback.call @, value, val, i, j
+      else
+        value = val
+      return
+    value
+
 
 # Matrix prototype
 # ----------------
@@ -110,11 +142,26 @@ matrixProto =
   isSquare: ->
     @rows == @columns
 
-  each: (handler) ->
-    for r in [0...@rows] by 1
-      for c in [0...@columns] by 1
-        handler (@get r, c), r, c
-    @
+  each: each
+
+  eachDiagonal: eachDiagonal
+
+  reduce: makeReduce each
+
+  reduceDiagonal: makeReduce eachDiagonal
+
+  reduceRows: (callback, initialValue) ->
+    rdcRows = []
+    for i in [0...@rows] by 1
+      value = initialValue
+      for j in [0...@columns] by 1
+        val = @get i, j
+        if value?
+          value = callback.call @, value, val, i, j
+        else
+          value = val
+      rdcRows.push value
+    rdcRows
 
   # Apply function `f(a,b,c...)` to all elements of a list of matrices with the same size and return the resulting
   # matrix.
@@ -206,15 +253,7 @@ matrixProto =
 
   # Returns a human readable string serialization of the matrix.
   toString: ->
-    str = ""
-    for el, n in @array
-      if n % @columns == 0
-        if n > 0
-          str += "\n"
-      else
-        str += " "
-      str += el
-    str
+    (@reduceRows concatEntries).reduce concatRows # TODO: shim; reduce() only in EcmaScript 5
 
 
 # Public API
