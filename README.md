@@ -78,7 +78,7 @@ Matrix Entries
 Each matrix has readable ```rows``` and ```columns``` properties:
 
 ```javascript
-console.log("Matrix A has " + A.rows + " rows and " + A.columns + " columns.");
+console.log('Matrix A has ' + A.rows + ' rows and ' + A.columns + ' columns.');
 ```
 
 Matrix entries can be accessed with ```get()``` and ```set()``` (indices start by ```0```):
@@ -140,7 +140,7 @@ norm = Math.sqrt(A.map(square).reduce(add));
 
 This now reads nicer than the imperative approach.
 
-If performance is important, you can remove the ```map()``` call (which creates a temporary array) and use a single
+If performance is important, you can remove the ```map()``` call (which creates a temporary matrix) and use a single
 ```reduce()``` instead:
 
 ```javascript
@@ -153,21 +153,20 @@ addSquared = function (x, y) {
 norm = Math.sqrt(A.reduce(addSquared, 0));
 ```
 
-
 Matrix Operations
 -----------------
 
 ```javascript
 // calculate some results without changing the matrices A, B and C:
-console.log("A*B = " + A.mult(B));
-console.log("B+C = " + B.add(C));
-console.log("C-B = " + C.minus(B));
-console.log("B*3 = " + B.times(3));
-console.log("B^t = " + B.transp());
-console.log("fill B with constant value = " + B.fill(2));
-console.log("copy of A = " + A.clone());
-console.log("A is square? = " + A.isSquare());
-console.log("A has same size as B? = " + A.isSize(B));
+console.log('A*B = ' + A.mult(B));
+console.log('B+C = ' + B.add(C));
+console.log('C-B = ' + C.minus(B));
+console.log('B*3 = ' + B.times(3));
+console.log('B^t = ' + B.transp());
+console.log('fill B with constant value = ' + B.fill(2));
+console.log('copy of A = ' + A.clone());
+console.log('A is square? = ' + A.isSquare());
+console.log('A has same size as B? = ' + A.isSize(B));
 ```
 
 map()
@@ -176,44 +175,44 @@ map()
 Create a 5x5 hilbert matrix:
 
 ```javascript
-H = M(5).map(function(h, i, j) {
+var H = M(5).map(function (h, i, j) {
     return 1 / (i + j + 1);
 });
 ```
-
 
 LU decomposition
 ----------------
 
 ```javascript
+var A, y, LU, x, Ainv;
 // create some matrices:
-var A = M([
-     2,  1, -1,
-    -3, -1,  2,
-    -2,  1,  2
+A = M([
+    2,  1, -1,
+   -3, -1,  2,
+   -2,  1,  2
 ]);
            
-var y = M(3,[
-      8,
-    -11,
-     -3
+y = M(3, [
+    8,
+  -11,
+   -3
 ]);
 
 // LU decompose matrix A          
-var LU = m4th.lu(A); // node.js: require('m4th/lu')(A);
+LU = m4th.lu(A); // node.js: require('m4th/lu')(A);
 // calculate solution for: y = A*x
-var x = LU.solve(y);
+x = LU.solve(y);
 // invert matrix A
-var Ainv = LU.getInverse();
+Ainv = LU.getInverse();
 ```
-
 
 UD decomposition
 ----------------
 
 ```javascript
+var A, y, UD, x;
 // create some matrices:
-var A = M([
+A = M([
     2, 1, 1, 3, 2,
     1, 2, 2, 1, 1,
     1, 2, 9, 1, 5,
@@ -221,10 +220,10 @@ var A = M([
     2, 1, 5, 1, 8
 ]);
            
-var y = M(5,[ -2, 4, 3, -5, 1 ]);
+y = M(5, [ -2, 4, 3, -5, 1 ]);
 
 // UD decompose matrix A          
-var UD = m4th.ud(A); // node.js: require('m4th/ud')(A);
+UD = m4th.ud(A); // node.js: require('m4th/ud')(A);
 // calculate solution for: y = A*x
-var x = UD.solve(y);
+x = UD.solve(y);
 ```
