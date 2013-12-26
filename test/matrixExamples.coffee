@@ -94,6 +94,25 @@ describe "Matrix examples", ->
 
     describe "frobenius norm", ->
 
+      it "can be calculated in an iterative style", ->
+        norm = 0
+        for i in [0...A.rows] by 1
+          for j in [0...A.columns] by 1
+            a = A.get i, j
+            norm += a * a
+        norm = Math.sqrt norm
+        # validate
+        (expect norm).to.equal Math.sqrt 207 # ca 14.387
+
+      it "can be calculated with each()", ->
+        norm = 0
+        A.each (a) ->
+          norm += a * a
+          return
+        norm = Math.sqrt norm
+        # validate
+        (expect norm).to.equal Math.sqrt 207 # ca 14.387
+
       it "can be calculated nicely", ->
         # helpers
         square = (x) -> x * x

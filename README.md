@@ -40,37 +40,124 @@ var M = require('m4th/matrix');
 Examples
 ========
 
+Matrix Creation
+---------------
+
+Create some empty matrices:
+
+```javascript
+var A, B;
+A = M(0);
+B = M([]);
+```
+
+Create a 2x3 matrix (2 rows, 3 columns) and a 4x4 matrix with ```undefined``` entries:
+
+```javascript
+var A, B;
+A = M(2, 3);
+B = M(4);
+```
+Create a 2x2 matrix and a 2x3 matrix with the given content:
+
+```javascript
+var A, B;
+A = M([
+    3,  2,
+    1,  0
+]);
+B = M(2, [
+    1,  2,  3,
+    4,  5,  7
+]);
+```
+
+Matrix Entries
+--------------
+
+Each matrix has readable ```rows``` and ```columns``` properties:
+
+```javascript
+console.log("Matrix A has " + A.rows + " rows and " + A.columns + " columns.");
+```
+
+Matrix entries can be accessed with ```get()``` and ```set()``` (indices start by ```0```):
+
+```javascript
+var a = A.get(0, 3); // get entry in row 0 and column 3
+A.set(1, 2, 3); // set entry in row 1 and column 2 to value 3
+```
+
+You can chain ```set()```:
+
+```javascript
+A.set(1, 0, 3).set(1, 1, 4).set(1, 2, 5);
+```
+
+Imperative / Functional
+-----------------------
+
+Own calculations on matrices can be done in imperative or functional style.
+For example the [frobenius norm](http://en.wikipedia.org/wiki/Matrix_norm#Frobenius_norm) of a matrix ```A```
+can be calculated imperatively:
+
+```javascript
+var i, j, a, norm;
+norm = 0;
+for (i = 0; i < A.rows; i += 1) { // iterate matrix rows
+  for (j = 0; j < A.columns; j += 1) { // iterate matrix columns
+    a = A.get(i, j);
+    norm += a * a;
+  }
+}
+norm = Math.sqrt(norm);
+```
+
+But we can do better using ```each()``` which takes a callback as an argument:
+
+```javascript
+var norm = 0;
+A.each(function (a) { // iterate matrix entries
+  norm += a * a;
+});
+norm = Math.sqrt(norm);
+```
+
+In a more functional style the same can be expressed with ```map()``` and ```reduce()```:
+
+```javascript
+var square, add, norm;
+// helper functions
+square = function (x) {
+  return x * x;
+};
+add = function (x, y) {
+  return x + y;
+};
+// calculate norm
+norm = Math.sqrt(A.map(square).reduce(add));
+```
+
+This now reads nicer than the imperative approach.
+
+If performance is important, you can remove the ```map()``` call (which creates a temporary array) and use a single
+```reduce()``` instead:
+
+```javascript
+var addSquared, norm;
+// helper function
+addSquared = function (x, y) {
+  return x + y * y;
+};
+// calculate norm
+norm = Math.sqrt(A.reduce(addSquared, 0));
+```
+
+
 Matrix Operations
 -----------------
 
 ```javascript
-// create some matrices:
-var A = M([
-    3,  2,
-    1,  0
-]);
-var B = M(2,[
-    1,  2,  3,
-    4,  5,  7
-]);
-var C = M(2,[
-    0,  6,  8,
-    3, -3,  5
-]);
-
-// output matrix content:
-console.log("A = " + A);
-console.log("B = " + B);
-console.log("C = " + C);
-
-// output matrix size:
-console.log("height of A = " + A.height);
-console.log("width of A = " + A.width);
-
-// get / set matrix elements
-console.log("get element in row 2 and column 3 of B = " + B.get(1, 2));
-B.set(1, 2, 9); // set element in row 2 and column 3 of B to 9
-
 // calculate some results without changing the matrices A, B and C:
 console.log("A*B = " + A.mult(B));
 console.log("B+C = " + B.add(C));
@@ -78,27 +165,9 @@ console.log("C-B = " + C.minus(B));
 console.log("B*3 = " + B.times(3));
 console.log("B^t = " + B.transp());
 console.log("fill B with constant value = " + B.fill(2));
-console.log("square each element of B = " + B.map(function(x){return x*x;}));
-console.log("double elements of B and add C = " + 
-                                    B.map(C, function(b, c){return 2*b+c;}));
 console.log("copy of A = " + A.clone());
 console.log("A is square? = " + A.isSquare());
 console.log("A has same size as B? = " + A.isSize(B));
-```
-
-
-
-each()
-------
-
-Calculate the frobenius norm of a matrix ```A```:
-
-```javascript
-norm = 0;
-A.each(function(a) {
-  norm += a * a;
-});
-norm = Math.sqrt(norm);
 ```
 
 map()
@@ -111,7 +180,6 @@ H = M(5).map(function(h, i, j) {
     return 1 / (i + j + 1);
 });
 ```
-
 
 
 LU decomposition
