@@ -33,11 +33,19 @@ describe "Matrix", ->
 
   describe "Constructor", ->
 
-    it "creates empty matrices", ->
+    it "creates empty matrix by array", ->
       B = M []
       expect(B.array).to.deep.equal []
       expect(B.rows).to.equal 0
       expect(B.columns).to.equal 0
+      expect(B.get 0, 0).to.be.undefined
+
+    it "creates empty matrix by rows", ->
+      B = M 0
+      expect(B.array).to.deep.equal []
+      expect(B.rows).to.equal 0
+      expect(B.columns).to.equal 0
+      expect(B.get 0, 0).to.be.undefined
 
     it "creates square matrices by array", ->
       B = M [
@@ -47,6 +55,30 @@ describe "Matrix", ->
       ]
       expect(B.rows).to.equal 3
       expect(B.columns).to.equal 3
+      expect(B.get 1, 2).to.equal 6
+
+    it "first rounds up rows and then columns if needed (1)", ->
+      B = M [
+        1, 2
+        3, 4
+        5, 6
+      ]
+      expect(B.rows).to.equal 3
+      expect(B.columns).to.equal 2
+      expect(B.get 1, 1).to.equal 4
+      expect(B.get 2, 2).to.be.undefined
+
+    it "first rounds up rows and then columns if needed (2)", ->
+      B = M [
+        1, 2, 3
+        4, 5, 6
+        7
+      ]
+      expect(B.rows).to.equal 3
+      expect(B.columns).to.equal 3
+      expect(B.get 1, 1).to.equal 5
+      expect(B.get 2, 0).to.equal 7
+      expect(B.get 2, 1).to.be.undefined
 
     it "creates rectangular matrices", ->
       B = M 2,[
@@ -55,6 +87,46 @@ describe "Matrix", ->
       ]
       expect(B.rows).to.equal 2
       expect(B.columns).to.equal 3
+      expect(B.get 1, 2).to.equal 6
+
+    it "creates rectangular matrices and round up columns if not set", ->
+      B = M 2,[
+        1, 2, 3, 4
+        5, 6, 7
+      ]
+      expect(B.rows).to.equal 2
+      expect(B.columns).to.equal 4
+      expect(B.get 1, 2).to.equal 7
+      expect(B.get 1, 3).to.be.undefined
+
+    it "creates matrix with size and array", ->
+      B = M 2, 3,[
+        1, 2, 3
+        4, 5, 6
+      ]
+      expect(B.rows).to.equal 2
+      expect(B.columns).to.equal 3
+      expect(B.get 1, 2).to.equal 6
+
+    it "creates matrix with size and array and ignores extra array elements", ->
+      B = M 2, 3,[
+        1, 2, 3
+        4, 5, 6
+        7, 8, 9
+      ]
+      expect(B.rows).to.equal 2
+      expect(B.columns).to.equal 3
+      expect(B.get 1, 2).to.equal 6
+
+    it "creates matrix with size and array and ignores missing array elements", ->
+      B = M 2, 3,[
+        1, 2, 3
+        4, 5
+      ]
+      expect(B.rows).to.equal 2
+      expect(B.columns).to.equal 3
+      expect(B.get 1, 1).to.equal 5
+      expect(B.get 1, 2).to.be.undefined
 
     it "creates empty square matrices", ->
       B = M 3
@@ -67,17 +139,6 @@ describe "Matrix", ->
       (expect B.rows).to.equal 2
       (expect B.columns).to.equal 3
       (expect B.get 1, 2).to.be.undefined
-
-    it "throws on wrong row value", ->
-      expect(-> M 2, [ 1, 2, 3 ]).to.throw()
-
-    it "uses floor square array size as columns if no columns value is given", ->
-      A = M [ 1, 2, 3, 4, 5, 6 ]
-      (expect A.rows).to.equal 2
-      (expect A.columns).to.equal 3
-
-    it "throws on irregular array size", ->
-      expect(-> M [ 1, 2, 3, 4, 5, 6, 7 ]).to.throw()
 
 
   describe "get()", ->

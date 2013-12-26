@@ -10,8 +10,8 @@
 
 # Create some shortcuts.
 failUnmatchingDimensions = -> fail "invalid dimension"
-floor = Math.floor
 
+{floor, ceil, sqrt, min} = Math
 
 # Helpers
 # -------
@@ -25,40 +25,34 @@ add = (a, b) -> a + b
 # Function which subtracts a number from another.
 minus = (a, b) -> a - b
 
-concatEntries = (x, y) ->
-  x + " " + y
+isNumber = (n) ->
+  typeof n == "number"
 
-concatRows = (x, y) ->
-  x + "\n" + y
 
 # Matrix constructor
 # ------------------
 
-# Construct a new empty matrix of the given size. Creates a square matrix if only first parameter is given.
-# Matrix elements will have an `undefined` value.
-matrixConstructorEmpty = (@rows, @columns = rows) ->
-  @array = []
-  return
-
-# Construct a new matrix with the given one dimensional content array (not copied) of the size = width * height.
-# Second optional parameter must be the width of the matrix. The height of the matrix is derived from the array size.
-# If this param is omitted, the matrix is initialized as square matrix.
-matrixConstructorContent = (@rows, @array) ->
-  @columns = if array.length == 0 then 0 else array.length / @rows
-  if @rows != (floor @rows) or @columns != (floor @columns)
-    fail "invalid array size"
-  return
-
-# Forward to above constructors.
-matrixConstructor = (arrayOrRows, arrayOrColumns) ->
-  if typeof arrayOrRows == "number"
-    if not arrayOrColumns? or typeof arrayOrColumns == "number"
-      matrixConstructorEmpty.call @, arrayOrRows, arrayOrColumns
-    else
-      matrixConstructorContent.call @, arrayOrRows, arrayOrColumns
+matrixConstructor = (arrayOrRows, arrayOrColumns, arrayOpt) ->
+  if not isNumber arrayOrRows # no rows given => ([array]) argument given
+    array = arrayOrRows
   else
-    matrixConstructorContent.call @, (floor Math.sqrt arrayOrRows.length), arrayOrRows
-
+    rows = arrayOrRows
+    if not isNumber arrayOrColumns # rows given but no columns => (rows, [array]) arguments given
+      array = arrayOrColumns
+    else # rows and columns given => (rows, columns, [array]) arguments given
+      cols = arrayOrColumns
+      array = arrayOpt
+  # fill missing informations
+  if not rows?
+    rows = ceil sqrt array.length
+  if not cols?
+    cols = if rows == 0 then 0 else if array? then ceil array.length / rows else rows
+  if not array?
+    array = []
+  @columns = cols
+  @rows = rows
+  @array = array
+  return
 
 # Matrix statics
 # --------------
@@ -69,7 +63,7 @@ matrixStatic =
   I: (rows, columns = rows) ->
     T = createMatrix rows, columns
     T.fill 0, T
-    for i in [0...Math.min rows, columns] by 1
+    for i in [0...min rows, columns] by 1
       T.set i, i, 1
     T
 
@@ -96,7 +90,7 @@ each = (handler) ->
   @
 
 eachDiagonal = (handler) ->
-  for ij in [0...Math.min @rows, @columns] by 1
+  for ij in [0...min @rows, @columns] by 1
     handler.call @, (@get ij, ij), ij, ij
   @
 
@@ -131,7 +125,7 @@ matrixProto =
   # Returns `true` if the matrix has the same *width* and *height* as the given matrix `B`.
   # Returns `false` otherwise.
   isSize: (rowsOrM, columns) ->
-    if typeof rowsOrM == "number"
+    if isNumber rowsOrM
       if not columns? # height given?
         columns = rowsOrM
       @rows == rowsOrM and @columns == columns
@@ -252,8 +246,9 @@ matrixProto =
     T
 
   # Returns a human readable string serialization of the matrix.
-  toString: ->
-    (@reduceRows concatEntries).reduce concatRows # TODO: shim; reduce() only in EcmaScript 5
+  toString: do ->
+    concatEntries = (x, y) -> x + " " + y
+    -> (@reduceRows concatEntries).join "\n"
 
 
 # Public API
