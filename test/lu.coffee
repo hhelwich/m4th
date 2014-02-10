@@ -1,9 +1,3 @@
-chai = require "chai"
-expect = chai.expect
-
-chai.use require "./approxAssertion"
-
-
 M = require "../src/matrix"
 _ = require "../src/lu"
 
@@ -39,34 +33,36 @@ describe "LU decomposition", ->
       -2, 1
     ]
 
+    @addMatchers
+      toApprox: (require './matcher').toApprox
 
   describe "LU decomposition", ->
 
     it "decomposes a matrix", ->
       _A = A.clone()
       lu = _ _A
-      (expect _A).to.deep.equal A # input untouched?
-      (expect lu.lu).to.deep.equal LU # correct decomposition?
+      (expect _A).toEqual A # input untouched?
+      (expect lu.lu).toEqual LU # correct decomposition?
 
     it "can decompose in place", ->
       _A = A.clone()
       lu = _ _A, _A
-      (expect lu.lu).to.deep.equal LU # correct decomposition?
-      (expect lu.lu).to.equal _A # in place ?
+      (expect lu.lu).toEqual LU # correct decomposition?
+      (expect lu.lu).toBe _A # in place ?
 
   describe "solve()", ->
 
     it "solves an equation", ->
       _B = B.clone()
       C = (_ A).solve _B
-      (expect _B).to.deep.equal B # input untouched?
-      (expect A.mult(C)).to.approx B, 0.0000000000001 # correct solution?
+      (expect _B).toEqual B # input untouched?
+      (expect A.mult(C)).toApprox B, 0.0000000000001 # correct solution?
 
     it "can solve in place", ->
       _B = B.clone()
       C = (_ A).solve _B, _B
-      (expect C).to.equal _B # in place ?
-      (expect A.mult(C)).to.approx B, 0.0000000000001 # correct solution?
+      (expect C).toBe _B # in place ?
+      (expect A.mult(C)).toApprox B, 0.0000000000001 # correct solution?
 
 
   describe "getInverse()", ->
@@ -74,7 +70,7 @@ describe "LU decomposition", ->
     it "returns the inverse of the source matrix", ->
       _A = A.clone()
       B = (_ _A).getInverse()
-      (expect _A).to.deep.equal A # input untouched?
+      (expect _A).toEqual A # input untouched?
       # correct solution?
-      (expect A.mult(B)).to.approx (M.I 3), 0.000000000000001
-      (expect B.mult(A)).to.approx (M.I 3), 0.00000000000001
+      (expect A.mult(B)).toApprox (M.I 3), 0.000000000000001
+      (expect B.mult(A)).toApprox (M.I 3), 0.00000000000001

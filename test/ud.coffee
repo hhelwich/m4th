@@ -1,9 +1,3 @@
-chai = require "chai"
-expect = chai.expect
-
-chai.use require "./approxAssertion"
-
-
 M = require "../src/matrix"
 _ = require "../src/ud"
 
@@ -39,6 +33,9 @@ describe "UD decomposition", ->
       9,  8
     ]
 
+    @addMatchers
+      toApprox: (require './matcher').toApprox
+      toApproxUpper: (require './matcher').toApproxUpper
 
   describe "UD decomposition", ->
 
@@ -46,15 +43,15 @@ describe "UD decomposition", ->
 
       _A = A.clone()
       ud = _ _A
-      expect(_A).to.deep.equal A # input untouched?
-      expect(ud.ud).to.approxUpper UD # correct decomposition?
+      expect(_A).toEqual A # input untouched?
+      expect(ud.ud).toApproxUpper UD # correct decomposition?
 
     it "can decompose in place", ->
 
       _A = A.clone()
       ud = _ _A, _A
-      expect(ud.ud).to.approxUpper UD # correct decomposition?
-      expect(ud.ud).to.equal _A # in place ?
+      expect(ud.ud).toApproxUpper UD # correct decomposition?
+      expect(ud.ud).toBe _A # in place ?
 
 
   describe "solve()", ->
@@ -62,11 +59,11 @@ describe "UD decomposition", ->
     it "solves an equation", ->
       _B = B.clone()
       C = (_ A).solve _B
-      expect(_B).to.deep.equal B # input untouched?
-      expect(A.mult(C)).to.approx B, 0.0000000000001 # correct solution?
+      expect(_B).toEqual B # input untouched?
+      expect(A.mult(C)).toApprox B, 0.0000000000001 # correct solution?
 
     it "can solve in place", ->
       _B = B.clone()
       C = (_ A).solve _B, _B
-      expect(C).to.equal _B # in place ?
-      expect(A.mult(C)).to.approx B, 0.0000000000001 # correct solution?
+      expect(C).toBe _B # in place ?
+      expect(A.mult(C)).toApprox B, 0.0000000000001 # correct solution?

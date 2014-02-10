@@ -1,5 +1,3 @@
-expect = (require "chai").expect
-
 M = require "../src/matrix"
 
 describe "Matrix", ->
@@ -35,17 +33,17 @@ describe "Matrix", ->
 
     it "creates empty matrix by array", ->
       B = M []
-      expect(B.array).to.deep.equal []
-      expect(B.rows).to.equal 0
-      expect(B.columns).to.equal 0
-      expect(B.get 0, 0).to.be.undefined
+      expect(B.array).toEqual []
+      expect(B.rows).toBe 0
+      expect(B.columns).toBe 0
+      expect(B.get 0, 0).not.toBeDefined()
 
     it "creates empty matrix by rows", ->
       B = M 0
-      expect(B.array).to.deep.equal []
-      expect(B.rows).to.equal 0
-      expect(B.columns).to.equal 0
-      expect(B.get 0, 0).to.be.undefined
+      expect(B.array).toEqual []
+      expect(B.rows).toBe 0
+      expect(B.columns).toBe 0
+      expect(B.get 0, 0).not.toBeDefined()
 
     it "creates square matrices by array", ->
       B = M [
@@ -53,9 +51,9 @@ describe "Matrix", ->
         4, 5, 6
         7, 8, 9
       ]
-      expect(B.rows).to.equal 3
-      expect(B.columns).to.equal 3
-      expect(B.get 1, 2).to.equal 6
+      expect(B.rows).toBe 3
+      expect(B.columns).toBe 3
+      expect(B.get 1, 2).toBe 6
 
     it "first rounds up rows and then columns if needed (1)", ->
       B = M [
@@ -63,10 +61,10 @@ describe "Matrix", ->
         3, 4
         5, 6
       ]
-      expect(B.rows).to.equal 3
-      expect(B.columns).to.equal 2
-      expect(B.get 1, 1).to.equal 4
-      expect(B.get 2, 2).to.be.undefined
+      expect(B.rows).toBe 3
+      expect(B.columns).toBe 2
+      expect(B.get 1, 1).toBe 4
+      expect(B.get 2, 2).not.toBeDefined()
 
     it "first rounds up rows and then columns if needed (2)", ->
       B = M [
@@ -74,39 +72,39 @@ describe "Matrix", ->
         4, 5, 6
         7
       ]
-      expect(B.rows).to.equal 3
-      expect(B.columns).to.equal 3
-      expect(B.get 1, 1).to.equal 5
-      expect(B.get 2, 0).to.equal 7
-      expect(B.get 2, 1).to.be.undefined
+      expect(B.rows).toBe 3
+      expect(B.columns).toBe 3
+      expect(B.get 1, 1).toBe 5
+      expect(B.get 2, 0).toBe 7
+      expect(B.get 2, 1).not.toBeDefined()
 
     it "creates rectangular matrices", ->
       B = M 2,[
         1, 2, 3
         4, 5, 6
       ]
-      expect(B.rows).to.equal 2
-      expect(B.columns).to.equal 3
-      expect(B.get 1, 2).to.equal 6
+      expect(B.rows).toBe 2
+      expect(B.columns).toBe 3
+      expect(B.get 1, 2).toBe 6
 
     it "creates rectangular matrices and round up columns if not set", ->
       B = M 2,[
         1, 2, 3, 4
         5, 6, 7
       ]
-      expect(B.rows).to.equal 2
-      expect(B.columns).to.equal 4
-      expect(B.get 1, 2).to.equal 7
-      expect(B.get 1, 3).to.be.undefined
+      expect(B.rows).toBe 2
+      expect(B.columns).toBe 4
+      expect(B.get 1, 2).toBe 7
+      expect(B.get 1, 3).not.toBeDefined()
 
     it "creates matrix with size and array", ->
       B = M 2, 3,[
         1, 2, 3
         4, 5, 6
       ]
-      expect(B.rows).to.equal 2
-      expect(B.columns).to.equal 3
-      expect(B.get 1, 2).to.equal 6
+      expect(B.rows).toBe 2
+      expect(B.columns).toBe 3
+      expect(B.get 1, 2).toBe 6
 
     it "creates matrix with size and array and ignores extra array elements", ->
       B = M 2, 3,[
@@ -114,95 +112,95 @@ describe "Matrix", ->
         4, 5, 6
         7, 8, 9
       ]
-      expect(B.rows).to.equal 2
-      expect(B.columns).to.equal 3
-      expect(B.get 1, 2).to.equal 6
+      expect(B.rows).toBe 2
+      expect(B.columns).toBe 3
+      expect(B.get 1, 2).toBe 6
 
     it "creates matrix with size and array and ignores missing array elements", ->
       B = M 2, 3,[
         1, 2, 3
         4, 5
       ]
-      expect(B.rows).to.equal 2
-      expect(B.columns).to.equal 3
-      expect(B.get 1, 1).to.equal 5
-      expect(B.get 1, 2).to.be.undefined
+      expect(B.rows).toBe 2
+      expect(B.columns).toBe 3
+      expect(B.get 1, 1).toBe 5
+      expect(B.get 1, 2).not.toBeDefined()
 
     it "creates empty square matrices", ->
       B = M 3
-      (expect B.rows).to.equal 3
-      (expect B.columns).to.equal 3
-      (expect B.get 1, 2).to.be.undefined
+      (expect B.rows).toBe 3
+      (expect B.columns).toBe 3
+      (expect B.get 1, 2).not.toBeDefined()
 
     it "creates empty rectangular matrices", ->
       B = M 2, 3
-      (expect B.rows).to.equal 2
-      (expect B.columns).to.equal 3
-      (expect B.get 1, 2).to.be.undefined
+      (expect B.rows).toBe 2
+      (expect B.columns).toBe 3
+      (expect B.get 1, 2).not.toBeDefined()
 
 
   describe "get()", ->
 
     it "gets a matrix entry", ->
-      (expect A.get 0, 0).to.equal 1
-      (expect A.get 0, 1).to.equal 3
-      (expect A.get 1, 0).to.equal 2
-      (expect A.get 1, 2).to.equal 6
+      (expect A.get 0, 0).toBe 1
+      (expect A.get 0, 1).toBe 3
+      (expect A.get 1, 0).toBe 2
+      (expect A.get 1, 2).toBe 6
 
     it "gets a column vector entry without column index", ->
       v = M 3, [2, 3, 4]
-      (expect v.get 0).to.equal 2
-      (expect v.get 1).to.equal 3
-      (expect v.get 2).to.equal 4
+      (expect v.get 0).toBe 2
+      (expect v.get 1).toBe 3
+      (expect v.get 2).toBe 4
 
 
   describe "set()", ->
 
     it "sets a matrix entry", ->
-      (expect A.get 0, 0).to.equal 1
-      (expect (A.set 0, 0, 3).get 0, 0).to.equal 3
-      (expect A.get 1, 2).to.equal 6
-      (expect (A.set 1, 2, 7).get 1, 2).to.equal 7
+      (expect A.get 0, 0).toBe 1
+      (expect (A.set 0, 0, 3).get 0, 0).toBe 3
+      (expect A.get 1, 2).toBe 6
+      (expect (A.set 1, 2, 7).get 1, 2).toBe 7
 
 
   describe "isSize()", ->
 
     it "returns true on a same sized matrix", ->
-      (expect A.isSize A).to.be.true
-      (expect A.isSize A2).to.be.true
+      (expect A.isSize A).toBe true
+      (expect A.isSize A2).toBe true
 
     it "returns false on a different sized matrix", ->
-      (expect A.isSize M []).to.be.false
-      (expect A.isSize M 3, [ 1, 2, 3 ]).to.be.false
+      (expect A.isSize M []).toBe false
+      (expect A.isSize M 3, [ 1, 2, 3 ]).toBe false
 
     it "returns false on a different sized matrix", ->
-      (expect A.isSize M []).to.be.false
-      (expect A.isSize M 1, [ 1, 2, 3 ]).to.be.false
+      (expect A.isSize M []).toBe false
+      (expect A.isSize M 1, [ 1, 2, 3 ]).toBe false
 
 
   describe "isSquare()", ->
 
     it "returns true on square matrix", ->
-      (expect (M []).isSquare()).to.be.true
-      (expect (M [1]).isSquare()).to.be.true
-      (expect (M [ 1, 2, 3, 4 ]).isSquare()).to.be.true
+      (expect (M []).isSquare()).toBe true
+      (expect (M [1]).isSquare()).toBe true
+      (expect (M [ 1, 2, 3, 4 ]).isSquare()).toBe true
 
     it "returns false on a not square matrix", ->
-      (expect A.isSquare()).to.be.false
+      (expect A.isSquare()).toBe false
 
 
   describe "clone()", ->
 
     it "clones a matrix", ->
       B = A.clone()
-      (expect B).not.to.equal A
-      (expect B).to.deep.equal A
+      (expect B).not.toBe A
+      (expect B).toEqual A
 
     it "clones to an existing matrix", ->
       B = A.clone A2
-      (expect B).not.to.equal A
-      (expect B).to.equal A2
-      (expect B).to.deep.equal A
+      (expect B).not.toBe A
+      (expect B).toBe A2
+      (expect B).toEqual A
 
   describe "each()", ->
 
@@ -213,18 +211,18 @@ describe "Matrix", ->
         [2,1,0], [4,1,1], [6,1,2]
       ]
       A.each (val, r, c) ->
-        (expect val).to.equal exp[call][0]
-        (expect r).to.equal exp[call][1]
-        (expect c).to.equal exp[call][2]
+        (expect val).toBe exp[call][0]
+        (expect r).toBe exp[call][1]
+        (expect c).toBe exp[call][2]
         call += 1
-      (expect call).to.equal exp.length
+      (expect call).toBe exp.length
 
     it "is chainable", ->
-      (expect A.each (->)).to.equal A
+      (expect A.each (->)).toBe A
 
     it "binds 'this' to matrix", ->
       A.each ->
-        (expect @).to.equal A
+        (expect @).toBe A
 
   describe "eachDiagonal()", ->
 
@@ -232,18 +230,18 @@ describe "Matrix", ->
       call = 0
       exp = [[1,0,0], [4,1,1]]
       A.eachDiagonal (val, i, j) ->
-        (expect val).to.equal exp[call][0]
-        (expect i).to.equal exp[call][1]
-        (expect j).to.equal exp[call][2]
+        (expect val).toBe exp[call][0]
+        (expect i).toBe exp[call][1]
+        (expect j).toBe exp[call][2]
         call += 1
-      (expect call).to.equal exp.length
+      (expect call).toBe exp.length
 
     it "is chainable", ->
-      (expect A.eachDiagonal (->)).to.equal A
+      (expect A.eachDiagonal (->)).toBe A
 
     it "binds 'this' to matrix", ->
       A.eachDiagonal ->
-        (expect @).to.equal A
+        (expect @).toBe A
 
 
   describe "reduce()", ->
@@ -251,40 +249,40 @@ describe "Matrix", ->
     it "reduces a matrix", ->
       B = A.clone()
       s = B.reduce (x, y) -> x + y
-      (expect B).to.deep.equal A # matrix unchanged?
+      (expect B).toEqual A # matrix unchanged?
       # correct result?
-      (expect s).to.deep.equal 21
+      (expect s).toEqual 21
 
     it "reduces a matrix with initial value", ->
       B = A.clone()
       s = B.reduce ((x, y) -> x + y), 11
-      (expect B).to.deep.equal A # matrix unchanged?
+      (expect B).toEqual A # matrix unchanged?
       # correct result?
-      (expect s).to.deep.equal 32
+      (expect s).toEqual 32
 
     it "binds 'this' to matrix", ->
       A.reduce ->
-        (expect @).to.equal A
+        (expect @).toBe A
 
   describe "reduceDiagonal()", ->
 
     it "reduces the diagonal of a matrix", ->
       B = A.clone()
       s = B.reduceDiagonal (x, y) -> x + y
-      (expect B).to.deep.equal A # matrix unchanged?
+      (expect B).toEqual A # matrix unchanged?
       # correct result?
-      (expect s).to.deep.equal 5
+      (expect s).toEqual 5
 
     it "reduces the diagonal of a matrix with initial value", ->
       B = A.clone()
       s = B.reduceDiagonal ((x, y) -> x + y), 11
-      (expect B).to.deep.equal A # matrix unchanged?
+      (expect B).toEqual A # matrix unchanged?
       # correct result?
-      (expect s).to.deep.equal 16
+      (expect s).toEqual 16
 
     it "binds 'this' to matrix", ->
       A.reduceDiagonal ->
-        (expect @).to.equal A
+        (expect @).toBe A
 
 
   describe "reduceRows()", ->
@@ -292,20 +290,20 @@ describe "Matrix", ->
     it "reduces all rows of a matrix", ->
       B = A.clone()
       array = B.reduceRows (x, y) -> x + y
-      (expect B).to.deep.equal A # matrix unchanged?
+      (expect B).toEqual A # matrix unchanged?
       # correct result?
-      (expect array).to.deep.equal [9, 12]
+      (expect array).toEqual [9, 12]
 
     it "reduces all rows of a matrix with initial value", ->
       B = A.clone()
       array = B.reduceRows ((x, y) -> x + y), 2
-      (expect B).to.deep.equal A # matrix unchanged?
+      (expect B).toEqual A # matrix unchanged?
       # correct result?
-      (expect array).to.deep.equal [11, 14]
+      (expect array).toEqual [11, 14]
 
     it "binds 'this' to matrix", ->
       A.reduceRows ->
-        (expect @).to.equal A
+        (expect @).toBe A
 
 
   describe "map()", ->
@@ -313,40 +311,40 @@ describe "Matrix", ->
     it "maps to a new matrix", ->
       B = A.clone()
       C = B.map (x) -> x*x
-      (expect C).not.to.equal B # not in place ?
+      (expect C).not.toBe B # not in place ?
       # adapted correctly ?
-      (expect C).to.deep.equal A2
+      (expect C).toEqual A2
 
     it "maps a matrix in place", ->
       B = A.clone()
       C = B.map ((x) -> x*x), B
-      (expect C).to.equal B # A returned ?
-      (expect C).to.deep.equal A2 # B adapted correctly ?
+      (expect C).toBe B # A returned ?
+      (expect C).toEqual A2 # B adapted correctly ?
 
     it "maps a matrix to a different matrix", ->
       B = A.clone()
       C = A.clone()
       D = B.map ((x) -> x*x), C
-      (expect B).to.deep.equal A # B adapted correctly ?
-      (expect D).to.equal C # A returned ?
-      (expect D).to.deep.equal A2 # B adapted correctly ?
+      (expect B).toEqual A # B adapted correctly ?
+      (expect D).toBe C # A returned ?
+      (expect D).toEqual A2 # B adapted correctly ?
 
     it "maps two matrices to a new matrix", ->
       B = A.clone()
       B2 = A2.clone()
       C = B.map B2, (a, b) -> b - a
-      (expect C).to.deep.equal A2_A
-      (expect C).not.to.equal B
-      (expect B).to.deep.equal A
-      (expect B2).to.deep.equal A2
+      (expect C).toEqual A2_A
+      (expect C).not.toBe B
+      (expect B).toEqual A
+      (expect B2).toEqual A2
 
     it "maps two matrices to the first matrix in place", ->
       B = A.clone()
       B2 = A2.clone()
       C = B.map B2, ((a, b) -> b - a), B
-      (expect C).to.deep.equal A2_A
-      (expect C).to.equal B
-      (expect B2).to.deep.equal A2
+      (expect C).toEqual A2_A
+      (expect C).toBe B
+      (expect B2).toEqual A2
 
 
   describe "times()", ->
@@ -354,15 +352,15 @@ describe "Matrix", ->
     it "multiplies a matrix", ->
       B = A.clone()
       C = B.times 3
-      (expect C).not.to.equal B # not in place ?
-      (expect B).to.deep.equal A # source not changed ?
-      (expect C).to.deep.equal A3 # adapted correctly ?
+      (expect C).not.toBe B # not in place ?
+      (expect B).toEqual A # source not changed ?
+      (expect C).toEqual A3 # adapted correctly ?
 
     it "multiplies a matrix in place", ->
       B = A.clone()
       C = B.times 3, B
-      (expect C).to.equal B # B returned ?
-      (expect C).to.deep.equal A3 # B adapted correctly ?
+      (expect C).toBe B # B returned ?
+      (expect C).toEqual A3 # B adapted correctly ?
 
 
   describe "fill()", ->
@@ -370,8 +368,8 @@ describe "Matrix", ->
     it "fills a matrix", ->
       B = A.clone()
       C = B.fill 7
-      (expect C).not.to.equal B # not in place ?
-      (expect C).to.deep.equal M 2,[  # adapted correctly ?
+      (expect C).not.toBe B # not in place ?
+      (expect C).toEqual M 2,[  # adapted correctly ?
         7, 7, 7
         7, 7, 7
       ]
@@ -383,20 +381,20 @@ describe "Matrix", ->
       B = A2_A.clone()
       B2 = A.clone()
       C = B.add(B2) # tested function
-      (expect C).to.deep.equal A2 # expected result?
-      (expect C).not.to.equal B # not in place?
-      (expect C).not.to.equal B2
-      (expect B).to.deep.equal A2_A # source unchanged ?
-      (expect B2).to.deep.equal A
+      (expect C).toEqual A2 # expected result?
+      (expect C).not.toBe B # not in place?
+      (expect C).not.toBe B2
+      (expect B).toEqual A2_A # source unchanged ?
+      (expect B2).toEqual A
 
     it "adds two matrices to the second matrix", ->
       B = A2_A.clone()
       B2 = A.clone()
       C = B.add(B2, B2) # tested function
-      (expect C).to.deep.equal A2 # expected result?
-      (expect C).to.equal B2 # in place ?
-      (expect C).not.to.equal B # not in place?
-      (expect B).to.deep.equal A2_A # source unchanged ?
+      (expect C).toEqual A2 # expected result?
+      (expect C).toBe B2 # in place ?
+      (expect C).not.toBe B # not in place?
+      (expect B).toEqual A2_A # source unchanged ?
 
 
   describe "minus()", ->
@@ -405,11 +403,11 @@ describe "Matrix", ->
       B = A2.clone()
       B2 = A.clone()
       C = B.minus B2 # tested function
-      (expect C).to.deep.equal A2_A # expected result?
-      (expect C).not.to.equal B # not in place?
-      (expect C).not.to.equal B2
-      (expect B).to.deep.equal A2 # source unchanged ?
-      (expect B2).to.deep.equal A
+      (expect C).toEqual A2_A # expected result?
+      (expect C).not.toBe B # not in place?
+      (expect C).not.toBe B2
+      (expect B).toEqual A2 # source unchanged ?
+      (expect B2).toEqual A
 
 
   describe "transp()", ->
@@ -417,23 +415,23 @@ describe "Matrix", ->
     it "transposes a matrix", ->
       B = A.clone()
       C = B.transp() # tested function
-      (expect C).to.deep.equal M 3,[ # expected result?
+      (expect C).toEqual M 3,[ # expected result?
         1, 2
         3, 4
         5, 6
       ]
-      (expect C).not.to.equal B # not in place?
-      (expect B).to.deep.equal A # source unchanged ?
+      (expect C).not.toBe B # not in place?
+      (expect B).toEqual A # source unchanged ?
 
     it "transposes a matrix in place", ->
       C = A.transp A # tested function
-      (expect C).to.deep.equal M 3,[ # expected result?
+      (expect C).toEqual M 3,[ # expected result?
         1, 2
         3, 4
         5, 6
       ]
-      (expect C).to.equal A # in place?
-      (expect C.array).to.equal A.array
+      (expect C).toBe A # in place?
+      (expect C.array).toBe A.array
 
 
   describe "mult()", ->
@@ -451,29 +449,29 @@ describe "Matrix", ->
       A2 = A.clone();
       B2 = B.clone();
       C = A2.mult B2 # tested function
-      (expect C).to.deep.equal M 2,[ # expected result?
+      (expect C).toEqual M 2,[ # expected result?
         34, -4,  23,  20
         -1, 28, -32, -23
       ]
-      (expect A2).to.deep.equal A # source unchanged ?
-      (expect B2).to.deep.equal B # source unchanged ?
+      (expect A2).toEqual A # source unchanged ?
+      (expect B2).toEqual B # source unchanged ?
 
 
   describe "toString() function", ->
 
     it "returns a matrix as string", ->
-      (expect A.toString()).to.equal "1 3 5\n2 4 6"
+      (expect A.toString()).toBe "1 3 5\n2 4 6"
 
 
   describe "I()", ->
 
     it "creates a new identity matrix", ->
-      (expect M.I 3).to.deep.equal M [
+      (expect M.I 3).toEqual M [
         1, 0, 0
         0, 1, 0
         0, 0, 1
       ]
-      (expect M.I 2, 3).to.deep.equal M 2,[
+      (expect M.I 2, 3).toEqual M 2,[
         1, 0, 0
         0, 1, 0
       ]
@@ -482,7 +480,7 @@ describe "Matrix", ->
   describe "diag()", ->
 
     it "creates a new diagonal matrix from a column vector", ->
-      (expect M.diag [2, 3, 4]).to.deep.equal M [
+      (expect M.diag [2, 3, 4]).toEqual M [
         2, 0, 0
         0, 3, 0
         0, 0, 4
@@ -491,9 +489,9 @@ describe "Matrix", ->
     it "can use an existing buffer", ->
       T = (M.I 3).fill 5
       D = M.diag [2, 3, 4], T
-      (expect D).to.deep.equal M [
+      (expect D).toEqual M [
         2, 0, 0
         0, 3, 0
         0, 0, 4
       ]
-      (expect D).to.equal T
+      (expect D).toBe T
