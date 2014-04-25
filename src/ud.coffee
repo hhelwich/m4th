@@ -1,7 +1,8 @@
 M = require "./matrix"
 
-{creator} = require "ut1l/obj"
-{fail} = require "ut1l/log"
+creator = require "ut1l/create/object"
+T = require "ut1l/create/throwable"
+fail = T "MatrixException"
 
 
 udDecompConstructor = (A, T = do A.clone, U = T, D = T) ->
@@ -55,4 +56,4 @@ udDecompPrototype =
     @solveUnitTriangular t, true, t
     t
 
-module.exports = creator udDecompPrototype, udDecompConstructor
+module.exports = creator udDecompConstructor, udDecompPrototype

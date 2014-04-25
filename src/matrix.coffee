@@ -3,10 +3,10 @@
 # Imports / Shortcuts
 # -------------------
 
-# Import logger.
-{fail} = require "ut1l/log"
 
-{creator} = require "ut1l/obj"
+creator = require "ut1l/create/object"
+T = require "ut1l/create/throwable"
+fail = T "MatrixException"
 
 # Create some shortcuts.
 failUnmatchingDimensions = -> fail "invalid dimension"
@@ -255,6 +255,6 @@ matrixProto =
 # ----------
 
 # Export Matrix constructor.
-module.exports = createMatrix = creator matrixProto, matrixConstructor, matrixStatic
+module.exports = createMatrix = creator matrixStatic, matrixConstructor, matrixProto
 
 

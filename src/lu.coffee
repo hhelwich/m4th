@@ -2,9 +2,9 @@
 
 M = require "./matrix"
 
-{creator} = require "ut1l/obj"
-
-{fail} = require "ut1l/log"
+creator = require "ut1l/create/object"
+T = require "ut1l/create/throwable"
+fail = T "MatrixException"
 
 ###
   A very basic LU decomposition implementation without pivoting. Decomposition is done in place. Given buffer must
@@ -60,4 +60,4 @@ luDecompPrototype =
 
 
 
-module.exports = creator luDecompPrototype, luDecompConstructor
+module.exports = creator luDecompConstructor, luDecompPrototype
