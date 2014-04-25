@@ -33,9 +33,7 @@ describe "UD decomposition", ->
       9,  8
     ]
 
-    @addMatchers
-      toApprox: (require './matcher').toApprox
-      toApproxUpper: (require './matcher').toApproxUpper
+    jasmine.addMatchers require './matcher'
 
   describe "UD decomposition", ->
 

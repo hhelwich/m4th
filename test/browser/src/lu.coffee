@@ -33,8 +33,7 @@ describe "LU decomposition", ->
       -2, 1
     ]
 
-    @addMatchers
-      toApprox: (require './matcher').toApprox
+    jasmine.addMatchers require './matcher'
 
   describe "LU decomposition", ->
 
