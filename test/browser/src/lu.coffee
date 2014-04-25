@@ -1,5 +1,5 @@
-M = require "../src/matrix"
-_ = require "../src/lu"
+M = require "../../../src/matrix"
+_ = require "../../../src/lu"
 
 describe "LU decomposition", ->
 

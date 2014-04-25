@@ -1,5 +1,5 @@
-M = require "../src/matrix"
-_ = require "../src/ud"
+M = require "../../../src/matrix"
+_ = require "../../../src/ud"
 
 describe "UD decomposition", ->
 

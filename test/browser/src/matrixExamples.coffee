@@ -1,10 +1,5 @@
-chai = require "chai"
-expect = chai.expect
 
-chai.use require "./approxAssertion"
-
-
-M = require "../src/matrix"
+M = require "../../../src/matrix"
 
 describe "Matrix examples", ->
 
@@ -25,7 +20,7 @@ describe "Matrix examples", ->
       for ij in [0...Math.min A.rows, A.columns] by 1
         trace += A.get ij, ij
       # validate
-      (expect trace).to.equal 17
+      (expect trace).toBe 17
 
     it "can be calculated with eachDiagonal()", ->
       trace = 0
@@ -33,13 +28,13 @@ describe "Matrix examples", ->
         trace += val
         return
       # validate
-      (expect trace).to.equal 17
+      (expect trace).toBe 17
 
     it "can be calculated with reduceDiagonal()", ->
       add = (x, y) -> x + y
       trace = A.reduceDiagonal add
       # validate
-      (expect trace).to.equal 17
+      (expect trace).toBe 17
 
 
   describe "norms", ->
@@ -64,13 +59,13 @@ describe "Matrix examples", ->
           return
         norm = Math.max.apply null, colSum
         # validate
-        (expect norm).to.equal 19
+        (expect norm).toBe 19
 
     #describe "2 norm", ->
 
       #it "can be calculated nicely", ->
         # validate
-        #(expect norm).to.equal 13.686
+        #(expect norm).toBe 13.686
 
     describe "infinity norm", ->
 
@@ -83,14 +78,14 @@ describe "Matrix examples", ->
           return
         norm = Math.max.apply null, rowSum
         # validate
-        (expect norm).to.equal 15
+        (expect norm).toBe 15
 
       it "can be calculated nicely with reduceRows()", ->
         addAbs = (x, y) ->
           x + Math.abs y
         norm = Math.max.apply null, A.reduceRows addAbs, 0
         # validate
-        (expect norm).to.equal 15
+        (expect norm).toBe 15
 
     describe "frobenius norm", ->
 
@@ -102,7 +97,7 @@ describe "Matrix examples", ->
             norm += a * a
         norm = Math.sqrt norm
         # validate
-        (expect norm).to.equal Math.sqrt 207 # ca 14.387
+        (expect norm).toBe Math.sqrt 207 # ca 14.387
 
       it "can be calculated with each()", ->
         norm = 0
@@ -111,7 +106,7 @@ describe "Matrix examples", ->
           return
         norm = Math.sqrt norm
         # validate
-        (expect norm).to.equal Math.sqrt 207 # ca 14.387
+        (expect norm).toBe Math.sqrt 207 # ca 14.387
 
       it "can be calculated nicely", ->
         # helpers
@@ -120,7 +115,7 @@ describe "Matrix examples", ->
         # do it
         norm = Math.sqrt (A.map square).reduce add
         # validate
-        (expect norm).to.equal Math.sqrt 207 # ca 14.387
+        (expect norm).toBe Math.sqrt 207 # ca 14.387
 
       it "can be calculated nicely with single reduce", ->
         # helpers
@@ -128,7 +123,7 @@ describe "Matrix examples", ->
         # do it
         norm = Math.sqrt A.reduce addSquared, 0
         # validate
-        (expect norm).to.equal Math.sqrt 207 # ca 14.387
+        (expect norm).toBe Math.sqrt 207 # ca 14.387
 
 
   describe "special matrices", ->
@@ -140,7 +135,7 @@ describe "Matrix examples", ->
         H = (M n).map (val, i, j) ->
           1 / (i + j + 1) # indices start at 0
         # validate
-        (expect H).to.deep.equal M [
+        (expect H).toEqual M [
           1/1, 1/2, 1/3, 1/4
           1/2, 1/3, 1/4, 1/5
           1/3, 1/4, 1/5, 1/6
@@ -160,7 +155,7 @@ describe "Matrix examples", ->
           else
             0
         # validate
-        (expect W).to.deep.equal M [
+        (expect W).toEqual M [
           2, 1, 0, 0, 0
           1, 1, 1, 0, 0
           0, 1, 0, 1, 0
@@ -177,9 +172,9 @@ describe "Matrix examples", ->
         # validate
         entries = 0
         R.each (r, i, j) ->
-          (expect r).to.be.within 0, 1
+          (expect 0 <= r <= 1).toBe true
           entries += 1
-        (expect entries).to.equal 25
+        (expect entries).toBe 25
 
 
   describe "special operations", ->
@@ -196,7 +191,7 @@ describe "Matrix examples", ->
           (x.get i0) * (y.get i1) - (x.get i1) * (y.get i0)
 
         # validate
-        (expect z).to.deep.equal M 3, [ 2, -4, 2]
+        (expect z).toEqual M 3, [ 2, -4, 2]
 
 
 
@@ -217,7 +212,7 @@ describe "Matrix examples", ->
           (A.get (Math.floor i / B.rows), (Math.floor j / B.columns)) * (B.get (i % B.rows), (j % B.columns))
 
         # validate
-        (expect C).to.deep.equal M 6,[
+        (expect C).toEqual M 6,[
            7,  8, 14, 16
            9,  0, 18,  0
           21, 24, 28, 32

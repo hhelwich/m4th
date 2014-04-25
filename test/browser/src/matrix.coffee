@@ -1,4 +1,4 @@
-M = require "../src/matrix"
+M = require "../../../src/matrix"
 
 describe "Matrix", ->
 
