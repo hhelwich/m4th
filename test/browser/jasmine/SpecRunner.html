@@ -15,13 +15,14 @@
   <script type="text/javascript" src="lib/jasmine/jasmine-html.js"></script>
   <script type="text/javascript" src="lib/jasmine/boot.js"></script>
 
+  <script type="text/javascript" src="lib/underscore.js"></script>
   <script type="text/javascript" src="lib/jasmine-jsreporter.js"></script>
   <script type="text/javascript">
       var env = jasmine.getEnv();
-      env.addReporter(new jasmine.JSReporter());
+      env.addReporter(new jasmine.JSReporter2());
   </script>
 
-  <script type="text/javascript" src="../../../../dist/m4th.js"></script>
+  <script type="text/javascript" src="../../../../dist/m4th.min.js"></script>
 
   <script type="text/javascript" src="../m4thSpec.js"></script>
 
