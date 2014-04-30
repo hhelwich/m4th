@@ -1,25 +1,45 @@
 {
+    "name": "m4th",
+    "version": "0.1.0",
+    "description": "Math stuff",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/hhelwich/m4th.git"
+    },
+    "license": "MIT",
+    "author": "Hendrik Helwich",
+    "main": "index.js",
     "private": true,
+    "keywords": [
+        "matrix",
+        "decomposition",
+        "lu",
+        "lr",
+        "ud",
+        "cholesky",
+        "browser"
+    ],
     "scripts": {
-        "test": "./node_modules/.bin/grunt travis",
-        "blanket": {
-            "pattern": "m4th/build/src/"
-        }
+        "test": "./node_modules/.bin/grunt travis && ./node_modules/.bin/istanbul cover ./node_modules/.bin/jasmine-node --captureExceptions build && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
     },
     "dependencies": {
-        "ut1l": "latest"
+        "ut1l": "0.2.0"
     },
     "devDependencies": {
-        "grunt-cli": "latest",
-        "grunt-contrib-watch": "latest",
-        "grunt-contrib-clean": "latest",
-        "grunt-contrib-copy": "latest",
-        "grunt-contrib-coffee": "latest",
-        "grunt-mocha-cov": "latest",
-        "chai": "latest",
-        "mocha-term-cov-reporter": "latest",
-        "grunt-browserify": "latest",
-        "grunt-contrib-uglify": "latest",
-        "coffee-script": "latest"
+        "coveralls": "2.8.0",
+        "grunt": "0.4.2",
+        "grunt-banner": "0.2.1",
+        "grunt-browserify": "2.0.1",
+        "grunt-cli": "0.1.13",
+        "grunt-contrib-clean": "0.5.0",
+        "grunt-contrib-coffee": "0.10.1",
+        "grunt-contrib-connect": "0.7.1",
+        "grunt-contrib-copy": "0.5.0",
+        "grunt-contrib-uglify": "0.4.0",
+        "grunt-contrib-watch": "0.5.3",
+        "grunt-saucelabs": "5.0.1",
+        "istanbul": "0.2.6",
+        "jasmine-node": "1.13.1",
+        "docker": "0.2.10"
     }
 }

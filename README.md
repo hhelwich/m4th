@@ -22,6 +22,11 @@ It exports the global `m4th` object. Now you can access e.g. the matrix construc
 var M = m4th.matrix;
 ```
 
+
+[![Browser Test Status](https://saucelabs.com/browser-matrix/m4th.svg)](https://saucelabs.com/u/m4th)
+
+
+
 node.js
 -------
 
@@ -42,14 +47,6 @@ Examples
 
 Matrix Creation
 ---------------
-
-Create some empty matrices:
-
-```javascript
-var A, B;
-A = M(0);
-B = M([]);
-```
 
 Create a 2x3 matrix (2 rows, 3 columns) and a 4x4 matrix with ```undefined``` entries:
 
@@ -81,7 +78,7 @@ Each matrix has readable ```rows``` and ```columns``` properties:
 console.log('Matrix A has ' + A.rows + ' rows and ' + A.columns + ' columns.');
 ```
 
-Matrix entries can be accessed with ```get()``` and ```set()``` (indices start by ```0```):
+Matrix entries can be accessed with ```get()``` and ```set()``` (indices start at ```0```):
 
 ```javascript
 var a = A.get(0, 3); // get entry in row 0 and column 3
@@ -97,7 +94,7 @@ A.set(1, 0, 3).set(1, 1, 4).set(1, 2, 5);
 Imperative / Functional
 -----------------------
 
-Own calculations on matrices can be done in imperative or functional style.
+Calculations on matrices can be done in imperative or functional style.
 For example the [frobenius norm](http://en.wikipedia.org/wiki/Matrix_norm#Frobenius_norm) of a matrix ```A```
 can be calculated imperatively:
 
@@ -227,3 +224,13 @@ UD = m4th.ud(A); // node.js: require('m4th/ud')(A);
 // calculate solution for: y = A*x
 x = UD.solve(y);
 ```
+
+
+
+
+
+## Changelog
+
+### 0.1.0 / 2014-02-10
+
+* Initial release
