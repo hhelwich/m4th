@@ -12,3 +12,7 @@ deploy:
   on:
     tags: true
   skip_cleanup: true
+env:
+  global:
+  - secure: mA4CBsO/pIDHHboZC/K/qxypKHnqAGXiq6wm3LQ3fgWhMLQIwNWq7XpbfL2ytC1dqttWBWePswmq0SShhCtQd/ZBA7qiafjJbIP14LJrBIF6p2Dgwc1vpfY66Nl7vlyStdx8CJsJ/JVPJbyOSs6K3M4GCWUbq9xYzabo4l6dY4g=
+  - secure: JdE07XksYgv9gH3770bHsnJj09+acvPF4YGz/rLXydGenJS29C3Aby8s9A1JK1AROJnQxm6ifZZed/NEiH8lujFOrxqIkLgLzuyT7c7q3iR5lmgBOkEzYCvpmJiHfMUB08sUYNElSUb5JY/J+ioEmgZ1S/ZHat95yJr9Yxf9Ebk=
