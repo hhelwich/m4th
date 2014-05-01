@@ -22,9 +22,9 @@ It exports the global `m4th` object. Now you can access e.g. the matrix construc
 var M = m4th.matrix;
 ```
 
+The following browsers are tested:
 
 [![Browser Test Status](https://saucelabs.com/browser-matrix/hhelwich-m4th.svg)](https://saucelabs.com/u/hhelwich-m4th)
-
 
 
 node.js
