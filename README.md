@@ -225,12 +225,3 @@ UD = m4th.ud(A); // node.js: require('m4th/ud')(A);
 x = UD.solve(y);
 ```
 
-
-
-
-
-## Changelog
-
-### 0.1.0 / 2014-02-10
-
-* Initial release
