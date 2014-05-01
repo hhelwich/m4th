@@ -10,7 +10,7 @@ A library to use in the browser or node.js. It currently contains:
 Browser
 -------
 
-To use the library in the browser, you need to include [this](https://raw.github.com/hhelwich/m4th/master/m4th.min.js) JavaScript file:
+To use the library in the browser, you need to include [this](https://raw.github.com/hhelwich/m4th/master/dist/m4th.min.js) JavaScript file:
 
 ```html
 <script src="m4th.min.js"></script>
