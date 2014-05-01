@@ -1,4 +1,6 @@
-M = require "../../../src/matrix"
+_ = if m4th? then m4th else require.call null, "../../src/index"
+
+M = _.matrix
 
 describe "Matrix", ->
 

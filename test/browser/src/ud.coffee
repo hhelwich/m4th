@@ -1,5 +1,8 @@
-M = require "../../../src/matrix"
-_ = require "../../../src/ud"
+mth = if m4th? then m4th else require.call null, "../../src/index"
+
+M = mth.matrix
+
+_ = mth.ud
 
 describe "UD decomposition", ->
 

@@ -1,5 +1,8 @@
-M = require "../../../src/matrix"
-_ = require "../../../src/lu"
+# get export in browser or node.js (after browserify)
+mth = if m4th? then m4th else require.call null, "../../src/index"
+
+M = mth.matrix
+_ = mth.lu
 
 describe "LU decomposition", ->
 
