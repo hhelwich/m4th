@@ -7,37 +7,38 @@ header = (text) ->
   (separator.substring 0, pos) + text + (separator.substring pos + text.length)
 
 extractVars = (node, vars, declaration) ->
-  if node.type == "Program"
-    for child in node.body
-      extractVars child, vars
-  else if node.type == "VariableDeclaration"
-    for dec in node.declarations
-      extractVars dec, vars
-  else if node.type == "VariableDeclarator"
-    extractVars node.id, vars, true
-    if node.init?
+  switch node.type
+    when "Program"
+      for child in node.body
+        extractVars child, vars
+    when "VariableDeclaration"
+      for dec in node.declarations
+        extractVars dec, vars
+    when "VariableDeclarator"
+      extractVars node.id, vars, true
+      if node.init?
+        extractVars node.init, vars
+    when "MemberExpression"
+      extractVars node.object, vars
+    when "Identifier"
+      vars[node.name] = vars[node.name] == true || declaration == true
+    when "CallExpression"
+      extractVars node.callee, vars
+      for arg in node.arguments
+        extractVars arg, vars
+    when "ExpressionStatement"
+      extractVars node.expression, vars
+    when "AssignmentExpression"
+      extractVars node.left, vars
+      extractVars node.right, vars
+    when "BinaryExpression"
+      extractVars node.left, vars
+      extractVars node.right, vars
+    when "ForStatement"
       extractVars node.init, vars
-  else if node.type == "MemberExpression"
-    extractVars node.object, vars
-  else if node.type == "Identifier"
-    vars[node.name] = vars[node.name] == true || declaration == true
-  else if node.type == "CallExpression"
-    extractVars node.callee, vars
-    for arg in node.arguments
-      extractVars arg, vars
-  else if node.type == "ExpressionStatement"
-    extractVars node.expression, vars
-  else if node.type == "AssignmentExpression"
-    extractVars node.left, vars
-    extractVars node.right, vars
-  else if node.type == "BinaryExpression"
-    extractVars node.left, vars
-    extractVars node.right, vars
-  else if node.type == "ForStatement"
-    extractVars node.init, vars
-    extractVars node.test, vars
-    extractVars node.update, vars
-    extractVars node.body, vars
+      extractVars node.test, vars
+      extractVars node.update, vars
+      extractVars node.body, vars
 
 
 getVars = (ast) ->
@@ -77,6 +78,8 @@ module.exports = (grunt) ->
 
 
         snippets = snippets.map (snippet, i) ->
+          snippet = snippet.replace "require", "_require"
+
           vars = getVars esprima.parse snippet
           allVars = Object.keys vars
 
