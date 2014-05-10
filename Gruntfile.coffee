@@ -108,17 +108,21 @@ module.exports = (grunt) ->
           testname: "browser black box tests"
           tags: ["master"]
 
+    mdExtract:
+      foo:
+        src: ["README.md"]
+        dest: "test/browser/src"
 
   # Loading dependencies
   for name of pkg.devDependencies
     if name != "grunt" and name != "grunt-cli" and (name.indexOf "grunt") == 0
       grunt.loadNpmTasks name
 
-  grunt.registerTask "travis", ["clean", "coffee", "copy", "adaptPackageJson", "browserify", "uglify", "usebanner", "connect", "saucelabs-jasmine"]
-  grunt.registerTask "dev", ["clean", "coffee", "copy", "adaptPackageJson", "browserify", "uglify", "usebanner", "connect", "watch"]
-  grunt.registerTask "default", ["dev"]
+  grunt.registerTask "travis", ["clean", "coffee", "copy", "adaptPackageJson", "mdExtract", "browserify", "uglify", "usebanner", "connect", "saucelabs-jasmine"]
+  grunt.registerTask "dev", ["clean", "coffee", "copy", "adaptPackageJson", "mdExtract", "browserify", "uglify", "usebanner", "connect", "watch"]
+  grunt.registerTask "default", [ "dev"]
 
-
+  grunt.loadTasks "tasks"
 
   grunt.registerTask "adaptPackageJson", ->
     fs = require "fs"

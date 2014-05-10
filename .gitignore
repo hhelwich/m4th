@@ -2,3 +2,4 @@
 /.idea
 /build
 /*.sh
+*.md.js
