@@ -6,12 +6,11 @@ creator = require "ut1l/create/object"
 T = require "ut1l/create/throwable"
 fail = T "MatrixException"
 
-###
-  A very basic LU decomposition implementation without pivoting. Decomposition is done in place. Given buffer must
-  be square and regular. The values of L below the diagonal are stored. The ones on the diagonal and the zeros
-  above the diagonal are not stored. The values of U on and above the diagonal are stored. The zero values below
-  the diagonal are not stored.
-###
+
+# A very basic LU decomposition implementation without pivoting. Decomposition is done in place. Given buffer must
+# be square and regular. The values of L below the diagonal are stored. The ones on the diagonal and the zeros
+# above the diagonal are not stored. The values of U on and above the diagonal are stored. The zero values below
+# the diagonal are not stored.
 
 
 luDecompConstructor = (A, T = do A.clone) ->
