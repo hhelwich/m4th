@@ -111,7 +111,7 @@ module.exports = (grunt) ->
     mdExtract:
       foo:
         src: ["README.md"]
-        dest: "test/browser/src"
+        dest: "build/test/browser/src"
 
   # Loading dependencies
   for name of pkg.devDependencies
